@@ -4,10 +4,11 @@ import com.project.videoSerwis.pojo.UserPOJO;
 import com.project.videoSerwis.pojo.VideoPOJO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface VideoRepository extends MongoRepository<VideoPOJO,String> {
 
-    Optional<VideoPOJO> findAllByUserPOJO(UserPOJO userPOJO);
+    List<VideoPOJO> findAllByUserPOJO(UserPOJO userPOJO);
 
 }

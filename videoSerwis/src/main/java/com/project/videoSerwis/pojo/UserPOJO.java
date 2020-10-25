@@ -42,7 +42,7 @@ public class UserPOJO {
     private String address;
 
     @ManyToMany
-    private Set<RolePOJO> roles;
+    private RolePOJO role;
 
     @Column(nullable = false)
     private String avatar;
