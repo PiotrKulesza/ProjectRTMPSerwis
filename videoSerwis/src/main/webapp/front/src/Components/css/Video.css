@@ -1,0 +1,26 @@
+.player-wrapper {
+    position: relative;
+    padding-top: 56.25%; /* 720 / 1280 = 0.5625 */
+}
+
+.react-player {
+    /*position: absolute;*/
+    top: 0;
+    left: 0;
+}
+
+.title{
+    top: 1em;
+    text-align: justify;
+    font-size: 2.5em
+}
+.description{
+    top: 1em;
+    text-align: justify;
+    font-size: 1.5em
+}
+.login{
+    top: 1em;
+    text-align: justify;
+    font-size: 1.5em
+}

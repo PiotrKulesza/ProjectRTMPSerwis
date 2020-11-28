@@ -1,8 +1,8 @@
 package com.project.videoSerwis.pojo;
 
 import java.util.Date;
-import java.util.Set;
 
+import com.project.videoSerwis.enums.State;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 
 @Document
@@ -26,24 +28,28 @@ public class UserPOJO {
     @Column(nullable = false)
     private String surname;
 
+    @Column(nullable = false)
+    private String login;
+
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = true)
+    @Column()
     private Date dateTime;
 
     @Column(nullable = false)
     private String telephone;
-
-    @Column(nullable = false)
-    private String address;
 
     @ManyToMany
     private RolePOJO role;
 
     @Column(nullable = false)
     private String avatar;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private State state;
 }
