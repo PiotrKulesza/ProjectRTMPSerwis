@@ -36,9 +36,9 @@ class NavigationBarUser extends React.Component{
                 <Nav className="mr-auto">
                     <Link to="/user/profil" className={"nav-link"}>Profil Uzytkonwika</Link>
                     <Link to="/user/videoslist" className={"nav-link"}>Szukaj filmów</Link>
+                    <Link to="/user/startStream" className={"nav-link"}>Rozpocznij strumień</Link>
                     <Link to="/loggout" className={"nav-link"} style={{ marginRight: "auto" }}>Wyloguj</Link>
                 </Nav>
-
             </Navbar>
         );
     }

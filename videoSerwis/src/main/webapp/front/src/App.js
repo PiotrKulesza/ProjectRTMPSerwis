@@ -25,6 +25,8 @@ import VideosList from "./Components/VideosList";
 import UserAdmin from "./Components/UserAdmin";
 import Activate from "./Components/Activate";
 import LastStep from "./Components/LastStep";
+import EditPass from "./Components/EditPass";
+import StartStream from "./Components/StartStream";
 
 function App() {
   return (<div className="grid-container">
@@ -47,6 +49,7 @@ function App() {
           <Route path={"/user/editName"} exact component={NavigationBarUser}/>
           <Route path={"/user/editSurname"} exact component={NavigationBarUser}/>
           <Route path={"/user/editPass"} exact component={NavigationBarUser}/>
+          <Route path={"/user/startStream"} exact component={NavigationBarUser}/>
 
 
           <Route path={"/admin"} exact component={NavigationBarAdmin}/>
@@ -85,8 +88,11 @@ function App() {
                           <Route path={"/admin/editLogin"} exact component={EditLogin}/>
                           <Route path={"/admin/editSurname"} exact component={EditSurname}/>
                           <Route path={"/user/editSurname"} exact component={EditSurname}/>
+                          <Route path={"/user/startStream"} exact component={StartStream}/>
                           <Route path={"/admin/user/:userId"} exact component={UserAdmin}/>
                           <Route path={"/user/videoslist"} exact component={VideosList}/>
+                          <Route path={"/user/editPass"} exact component={EditPass}/>
+                          <Route path={"/admin/editPass"} exact component={EditPass}/>
                       </Switch>
                   </Col>
               </Row>

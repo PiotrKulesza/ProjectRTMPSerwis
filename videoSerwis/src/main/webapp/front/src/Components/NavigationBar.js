@@ -11,11 +11,10 @@ class NavigationBar extends React.Component{
                     RTMPStreamer
                 </Link>
                 <Nav className="mr-auto">
-                    <Link to="login" className={"nav-link"}>Logowanie</Link>
-                    <Link to="register" className={"nav-link"}>Rejestracja</Link>
-                    <Link to={"videoslist"} className={"nav-link"}>Szukaj filmów</Link>
+                    <Link to="/login" className={"nav-link"}>Logowanie</Link>
+                    <Link to="/register" className={"nav-link"}>Rejestracja</Link>
+                    <Link to={"/videoslist"} className={"nav-link"}>Szukaj filmów</Link>
                 </Nav>
-
             </Navbar>
         );
     }

@@ -21,7 +21,7 @@ public class VideoService implements IVideoService{
     VideoRepository videoRepository;
 
     @Override
-    public String postVideo(VideoPOJO videoPOJO, String userId) {
+    public VideoPOJO postVideo(VideoPOJO videoPOJO, String userId) {
 
         InetAddress ip;
         videoPOJO.setVideoState(VideoState.STREAM);
@@ -44,7 +44,7 @@ public class VideoService implements IVideoService{
             e.printStackTrace();
         }
 
-        return videoPOJO.getVideoId();
+        return videoPOJO;
     }
 
 

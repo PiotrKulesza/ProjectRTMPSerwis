@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IVideoService {
 
-    public String postVideo(VideoPOJO videoPOJO, String userId);
+    public VideoPOJO postVideo(VideoPOJO videoPOJO, String userId);
 
     public void putEndVideoStream(String videoId);
 

@@ -129,10 +129,10 @@ public class VideoServiceController {
 
     @RequestMapping(value = "/putPassword", method = RequestMethod.PUT)
     @ResponseBody
-    public void putPassword(@RequestParam("userId") String userId,@RequestParam("newPass") String newPass,
+    public String putPassword(@RequestParam("userId") String userId,@RequestParam("newPass") String newPass,
                             @RequestParam("oldPass") String oldPass) {
 
-        iUserService.putPassword(userId,newPass,oldPass);
+        return iUserService.putPassword(userId,newPass,oldPass);
 
     }
 
@@ -239,7 +239,7 @@ public class VideoServiceController {
 
     @RequestMapping(value = "/postVideo", method = RequestMethod.POST)
     @ResponseBody
-    public String postVideo(@ModelAttribute VideoPOJO videoPOJO, @RequestParam("userId") String userId) {
+    public VideoPOJO postVideo(@ModelAttribute VideoPOJO videoPOJO, @RequestParam("userId") String userId) {
 
         return iVideoService.postVideo(videoPOJO, userId);
 

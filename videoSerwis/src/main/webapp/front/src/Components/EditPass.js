@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import axios from 'axios';
-import {Button, Card, Col, Form,ListGroup} from "react-bootstrap";
+import {Alert, Button, Card, Col, Form, ListGroup} from "react-bootstrap";
 import Avatar from "react-avatar";
 
 class EditPass extends React.Component{
@@ -36,13 +36,15 @@ class EditPass extends React.Component{
                     +this.state.oldPass
                     +'&userId='
                     +this.state.userId,
-            }).then((data) =>{
-                this.setState({returnString: data});
-                if(this.state.returnString !== 1 && this.state.returnString !== 2 && this.state.returnString !=='')
-                    window.location = "http://localhost:3000/profil/"
+            }).then(response => response.data)
+                .then((data) =>{
+                    this.setState({returnString: data});
+                    alert(this.state.returnString)
+                    if(this.state.returnString ===0)
+                        window.location = "/"+this.state.userType+"/profil";
+                });
 
-            });
-        window.location = "/"+this.state.userType+"/profil";
+
         this.forceUpdate();
         event.preventDefault();
     }
@@ -62,34 +64,17 @@ class EditPass extends React.Component{
 
                 <Form  onSubmit={this.submitChange} id={"searchFormId"}>
                     <Card.Body>
+
+
                         <Form.Row>
 
-                            <Form.Group as={Col} controlId="formBasicPriceForFood">
-                                <Form.Label>Nowe imię użytkonwika</Form.Label>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    autoComplete={"off"}
-                                    name={"name"}
-                                    value={this.state.name}
-                                    onChange={this.valueChange}
-                                    placeholder="name"
-                                    className={"bg-light text-black"}
-
-                                />
-
-                            </Form.Group>
-
-                        </Form.Row>
-                        <Form.Row>
-
-                            <Form.Group as={Col} controlId="formBasicPriceForFood">
+                            <Form.Group as={Col}>
                                 <Form.Label>Stare Hasło</Form.Label>
                                 <Form.Control
                                     required
                                     type="password"
                                     autoComplete={"off"}
-                                    name={"name"}
+                                    name={"oldPass"}
                                     value={this.state.oldPass}
                                     onChange={this.valueChange}
                                     placeholder="password"
@@ -102,16 +87,16 @@ class EditPass extends React.Component{
                         </Form.Row>
                         <Form.Row>
 
-                            <Form.Group as={Col} controlId="formBasicPriceForFood">
+                            <Form.Group as={Col} >
                                 <Form.Label>Nowe hasło</Form.Label>
                                 <Form.Control
                                     required
-                                    type="text"
+                                    type="password"
                                     autoComplete={"off"}
-                                    name={"name"}
+                                    name={"newPass"}
                                     value={this.state.newPass}
                                     onChange={this.valueChange}
-                                    placeholder="name"
+                                    placeholder="password"
                                     className={"bg-light text-black"}
 
                                 />
@@ -121,16 +106,16 @@ class EditPass extends React.Component{
                         </Form.Row>
                         <Form.Row>
 
-                            <Form.Group as={Col} controlId="formBasicPriceForFood">
+                            <Form.Group as={Col} >
                                 <Form.Label>Powtórz nowe hasło</Form.Label>
                                 <Form.Control
                                     required
-                                    type="text"
+                                    type="password"
                                     autoComplete={"off"}
-                                    name={"name"}
+                                    name={"newPassRep"}
                                     value={this.state.newPassRep}
                                     onChange={this.valueChange}
-                                    placeholder="name"
+                                    placeholder="password"
                                     className={"bg-light text-black"}
 
                                 />
@@ -147,7 +132,8 @@ class EditPass extends React.Component{
 
                         </div>
                     </Card.Footer>
-
+                    <CheckIfNotMatch newPass={this.state.newPass} newPassRep={this.state.newPassRep}/>
+                    <PutReturnAlert returnString ={this.state.returnString}/>
                 </Form>
 
 
@@ -156,6 +142,58 @@ class EditPass extends React.Component{
             </Card>
         );
     }
+
+}
+
+
+const PutReturnAlert = (props) => {
+    if(props.returnString===1){
+        return <AlertIfOldPassNotMatch />
+    }else if(props.returnString===2) {
+        return <AlertIfUserNotMatch />
+    }else{
+        return <EmptyDiv />
+    }
+}
+
+const AlertIfOldPassNotMatch = (props) => {
+    return<div>
+        <Alert  variant={"danger"}>
+            Podano nie właściwe stare hasło
+        </Alert></div>
+
+}
+
+const AlertIfUserNotMatch = (props) => {
+    return<div>
+        <Alert  variant={"danger"}>
+            Oj coś jest nie tak zostaniesz wylogowany.
+            {window.location = "loggout"}
+        </Alert></div>
+
+}
+
+
+const CheckIfNotMatch = (props) =>{
+    if(props.newPass!==props.newPassRep){
+        return <AlertIfPassNotMatch />
+    }else {
+        return <EmptyDiv/>
+    }
+
+
+}
+
+const AlertIfPassNotMatch = (props) => {
+    return<div>
+        <Alert  variant={"danger"}>
+            Hasła nie są identyczne
+        </Alert></div>
+
+}
+const EmptyDiv = (props) => {
+    return<div>
+    </div>
 
 }
 
