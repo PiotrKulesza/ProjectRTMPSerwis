@@ -7,8 +7,11 @@ import com.project.videoSerwis.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.nio.charset.Charset;
 import java.util.*;
 
 @Service
@@ -23,26 +26,50 @@ public class VideoService implements IVideoService{
     @Override
     public VideoPOJO postVideo(VideoPOJO videoPOJO, String userId) {
 
-        InetAddress ip;
         videoPOJO.setVideoState(VideoState.STREAM);
         videoPOJO.setUserPOJO(userRepository.findById(userId).get());
         videoPOJO.setDateTime(new Date(Calendar.getInstance().getTime().getTime()));
-
         videoRepository.save(videoPOJO);
-        try {
-            ip = InetAddress.getLocalHost();
-            Process p = Runtime.getRuntime().exec(
-                    "ffmpeg -i \"http://localhost:8089/hls/"
-                            +videoPOJO.getUserPOJO().getLogin()
-                            +".m3u8\" -c copy -y /home/"
-                            +System.getProperty("user.name")
-                            +"/videos/"
-                            +videoPOJO.getVideoId()
-                            +".mp4 &");
 
-        } catch (IOException e) {
+        /*try {
+
+
+            /*Process processDuration = new ProcessBuilder("ffmpeg",
+                    "-i",
+                    streamPath,
+                    "-c",
+                    "copy",
+                    "-y",
+                    path).redirectErrorStream(true).start();
+
+            StringBuilder strBuild = new StringBuilder();
+            try (BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(processDuration.getInputStream(), Charset.defaultCharset()));) {
+                String line;
+                while ((line = processOutputReader.readLine()) != null) {
+                    strBuild.append(line + System.lineSeparator());
+                }
+                processDuration.waitFor();
+            }
+            String outputJson = strBuild.toString().trim();
+            System.out.println(outputJson);*/
+
+
+
+
+            /*System.out.println("test");
+            ip = InetAddress.getLocalHost();
+            //"sudo ffmpeg -i \"http://localhost:8089/hls/UserNum1.m3u8\" -c copy -y /home/webapp/videos/5fc3dc2a98ca7525dfd6cd9d.mp4"
+            Process p = Runtime.getRuntime().exec(
+                    "sudo ffmpeg -i \"http://localhost:8089/hls/UserNum1.m3u8\" -t 1 -c copy -y /home/webapp/videos/5fc3dc2a98ca7525dfd6cd9d.mp4");
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String s;
+            while ((s = stdInput.readLine()) != null) {
+                System.out.println(s);
+            }
+
+        } catch (IOException ) {
             e.printStackTrace();
-        }
+        }*/
 
         return videoPOJO;
     }
@@ -51,9 +78,11 @@ public class VideoService implements IVideoService{
 
     @Override
     public void putEndVideoStream(String videoId){
-        VideoPOJO videoPOJO = videoRepository.findById(videoId).get();
-        videoPOJO.setVideoState(VideoState.FILE);
-        videoRepository.save(videoPOJO);
+        if(videoRepository.findById(videoId).isPresent()){
+            VideoPOJO videoPOJO = videoRepository.findById(videoId).get();
+            videoPOJO.setVideoState(VideoState.STREAM_ENDED);
+            videoRepository.save(videoPOJO);
+        }
     }
 
     @Override
@@ -94,7 +123,7 @@ public class VideoService implements IVideoService{
         }else {
             String[] strings = text.split("\\s+");
             List<VideoPOJO> videoPOJOList2 = new ArrayList<>();
-            videoPOJOList.stream().forEach(s -> {
+            videoPOJOList.stream().filter(s -> s.getVideoState().equals(VideoState.STREAM)).forEach(s -> {
                 for (String word : strings) {
                     if (s.getTitle().toLowerCase().contains(word.toLowerCase()))
                         videoPOJOList2.add(s);

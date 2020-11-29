@@ -241,6 +241,7 @@ public class VideoServiceController {
     @ResponseBody
     public VideoPOJO postVideo(@ModelAttribute VideoPOJO videoPOJO, @RequestParam("userId") String userId) {
 
+        System.out.println(userId);
         return iVideoService.postVideo(videoPOJO, userId);
 
     }
@@ -291,5 +292,13 @@ public class VideoServiceController {
     }
 
 
+    @RequestMapping(value = "/putEndVideoStream", method = RequestMethod.PUT)
+    @ResponseBody
+    public void putEndVideoStream(@RequestParam("videoId") String videoId) {
+
+        iVideoService.putEndVideoStream(videoId);
+
+
+    }
 
 }

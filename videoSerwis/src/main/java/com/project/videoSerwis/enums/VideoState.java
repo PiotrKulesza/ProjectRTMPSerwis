@@ -1,5 +1,5 @@
 package com.project.videoSerwis.enums;
 
 public enum VideoState {
-    STREAM,FILE
+    STREAM,STREAM_ENDED
 }

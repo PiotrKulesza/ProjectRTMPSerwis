@@ -4,6 +4,7 @@ import axios from "axios";
 import "./css/Video.css"
 import Avatar from "react-avatar";
 import ReactPlayer from "react-player";
+import {RiChatHistoryFill} from "react-icons/all";
 
 class StartStream extends React.Component {
 
@@ -11,16 +12,18 @@ class StartStream extends React.Component {
         super(props);
         this.state = {
             description:'',
-            tag:'',
+            tag:"PEGI8",
             title:'',
             userId: '',
             isStarted:false,
             videoId:'',
-            video:{}
+            video:{},
+            user:{}
         }
         this.valueChange = this.valueChange.bind(this)
-        this.submitChange = this.submitChange.bind(this)
-
+        this.submitStart = this.submitStart.bind(this)
+        this.submitStop = this.submitStop.bind(this)
+        this.onChangeTag = this.onChangeTag.bind(this)
 
     }
 
@@ -30,17 +33,43 @@ class StartStream extends React.Component {
         })
     }
 
+
+
     componentDidMount() {
         this.state.userId = localStorage.getItem('loggedUser')
 
     }
 
+    onChangeTag(event) {
+        this.setState({ tag: event.target.value })
+    }
 
-    submitChange (event) {
+    submitStop (event) {
 
+
+        axios({
+            method:'put',
+            url:'http://localhost:8080/putEndVideoStream?videoId='
+                +this.state.video.videoId
+        }).then(response => response.data)
+            .then((data) =>{
+                    this.state.isStarted=false
+                    this.forceUpdate()
+
+
+
+            });
+
+
+        event.preventDefault();
+    }
+
+
+    submitStart (event) {
+            alert(this.state.tag)
 
             axios({
-                method:'put',
+                method:'post',
                 url:'http://localhost:8080/postVideo?tag='
                     +this.state.tag
                     +'&title='
@@ -52,10 +81,11 @@ class StartStream extends React.Component {
             }).then(response => response.data)
                 .then((data) =>{
                     this.setState({video: data});
-                    if(typeof this.state.video.videoState === "STREAM"){
+
                         this.state.isStarted=true
+                        alert(this.state.isStarted)
                         this.forceUpdate()
-                    }
+
 
 
                 });
@@ -70,7 +100,12 @@ class StartStream extends React.Component {
         if(this.state.isStarted===false)
         return(
             <Card className="border border-light bg-light text-black">
-                <Form  onSubmit={this.submitSearch}>
+                <Form  onSubmit={this.submitStart}  id={"startStreamFormId"}>
+                    <Card.Header>
+                        <h3>Wzór do rozpoczęcia strumienia</h3>
+                        <p>Serwer: rtmp://192.168.56.101:1935/show/</p>
+                        <p>Klucz strumienia: twój login</p>
+                    </Card.Header>
                     <Card.Body>
                         <Form.Row>
                             <Form.Group as={Col}>
@@ -106,21 +141,21 @@ class StartStream extends React.Component {
                         </Form.Row>
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <Form.Label>Opis strumienia</Form.Label>
+                                <Form.Label>Od ilu lat</Form.Label>
                                 <Form.Control
                                     as="select"
                                     required
                                     autoComplete={"off"}
                                     name={"tag"}
                                     value={this.state.tag}
-                                    onChange={this.valueChange}
+                                    onChange={this.onChangeTag}
                                     className={"bg-light text-black"}
                                 >
-                                    <option>PEGI8</option>
-                                    <option>PEGI10</option>
-                                    <option>PEGI12</option>
-                                    <option>PEGI16</option>
-                                    <option>PEGI18</option>
+                                    <option value = {"PEGI8"}>PEGI8</option>
+                                    <option value = {"PEGI10"}>PEGI10</option>
+                                    <option value = {"PEGI12"}>PEGI12</option>
+                                    <option value = {"PEGI16"}>PEGI16</option>
+                                    <option value = {"PEGI18"}>PEGI18</option>
                                 </Form.Control>
                             </Form.Group>
                         </Form.Row>
@@ -139,8 +174,6 @@ class StartStream extends React.Component {
         else return (
             <Card>
                 <Card.Header>
-                    <Avatar name={this.state.video.userPOJO.login} size="50" round={true}></Avatar>
-                    <b className={"login"}>{this.state.video.userPOJO.login}</b>
                     <p></p>
                     <p><b className={"title"}>{this.state.video.title}</b></p>
 
@@ -148,30 +181,28 @@ class StartStream extends React.Component {
                 </Card.Header>
                 <Card.Body>
 
-                        {this.state.video.videoState==="STREAM" ?
                             <ReactPlayer
-                            url={'videos/Pexels_Videos_2881.mp4'}
+                            url={"http://localhost:8089/hls/"
+                            +this.state.video.userPOJO.login
+                            +".m3u8"}
                             className='react-player'
                             playing
                             width='100%'
                             height='100%'
                             controls = {true}/>:
-                            <ReactPlayer
-                                url={'videos/Pexels_Videos_2881.mp4'}
-                                className='react-player'
-                                playing
-                                width='100%'
-                                height='100%'
-                                controls = {true}/>
-                        }
+
 
 
                 </Card.Body>
                 <Card.Footer>
-
-
-
                     <p><b className={"description"}>{this.state.video.description} </b></p>
+                    <Form  onSubmit={this.submitStop} id={"stopStreamFormId"}>
+                        <div >
+                            <Button size="sm" variant="success" type="submit" style={{"textAlign":"center"}}>
+                                Zakończ
+                            </Button>{" "}
+                        </div>
+                    </Form>
 
                 </Card.Footer>
             </Card>

@@ -50,11 +50,12 @@ class Video extends React.Component {
                         <p></p>
                             <p><b className={"title"}>{this.state.video.title}</b></p>
 
-
                     </Card.Header>
                     <Card.Body>
                         <ReactPlayer
-                            url={'videos/Pexels_Videos_2881.mp4'}
+                            url={"http://192.168.56.101:8089/hls/"
+                            +this.state.video.userPOJO.login
+                            +".m3u8"}
                             className='react-player'
                             playing
                             width='100%'
