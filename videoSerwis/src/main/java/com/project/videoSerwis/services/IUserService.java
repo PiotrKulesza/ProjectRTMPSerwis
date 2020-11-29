@@ -15,7 +15,7 @@ public interface IUserService {
 
     public Boolean deleteUser(String id);
 
-    public void putPassword(String id, String newPass, String oldPass);
+    public String putPassword(String id, String newPass, String oldPass);
 
     public String postUser(UserPOJO userPOJO);
 

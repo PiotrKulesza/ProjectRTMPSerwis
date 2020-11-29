@@ -7,6 +7,8 @@ import com.project.videoSerwis.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.*;
 
 @Service
@@ -21,12 +23,27 @@ public class VideoService implements IVideoService{
     @Override
     public String postVideo(VideoPOJO videoPOJO, String userId) {
 
-
+        InetAddress ip;
         videoPOJO.setVideoState(VideoState.STREAM);
         videoPOJO.setUserPOJO(userRepository.findById(userId).get());
         videoPOJO.setDateTime(new Date(Calendar.getInstance().getTime().getTime()));
 
         videoRepository.save(videoPOJO);
+        try {
+            ip = InetAddress.getLocalHost();
+            Process p = Runtime.getRuntime().exec(
+                    "ffmpeg -i \"http://localhost:8089/hls/"
+                            +videoPOJO.getUserPOJO().getLogin()
+                            +".m3u8\" -c copy -y /home/"
+                            +System.getProperty("user.name")
+                            +"/videos/"
+                            +videoPOJO.getVideoId()
+                            +".mp4 &");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return videoPOJO.getVideoId();
     }
 

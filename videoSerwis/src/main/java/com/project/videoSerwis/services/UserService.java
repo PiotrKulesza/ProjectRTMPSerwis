@@ -49,13 +49,19 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void putPassword(String id, String newPass, String oldPass) {
+    public String putPassword(String id, String newPass, String oldPass) {
 
         if(userRepository.findById(id).isPresent()){
             UserPOJO userPOJO = userRepository.findById(id).get();
-            if(userPOJO.getPassword().equals(oldPass)) userPOJO.setPassword(newPass);
-            userRepository.save(userPOJO);
-        }
+
+            if(userPOJO.getPassword().equals(oldPass)) {
+                userPOJO.setPassword(newPass);
+                userRepository.save(userPOJO);
+                return "0";
+            }else return "1";
+
+
+        }return "2";
 
     }
 
