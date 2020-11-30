@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VideoService implements IVideoService{
@@ -119,13 +120,13 @@ public class VideoService implements IVideoService{
 
         List<VideoPOJO>  videoPOJOList = videoRepository.findAll();;
         if(text.equals("@everything")) {
-            return videoPOJOList;
+            return videoPOJOList.stream().filter(s->s.getVideoState().equals(VideoState.STREAM)).collect(Collectors.toList());
         }else {
             String[] strings = text.split("\\s+");
             List<VideoPOJO> videoPOJOList2 = new ArrayList<>();
-            videoPOJOList.stream().filter(s -> s.getVideoState().equals(VideoState.STREAM)).forEach(s -> {
+            videoPOJOList.stream().forEach(s -> {
                 for (String word : strings) {
-                    if (s.getTitle().toLowerCase().contains(word.toLowerCase()))
+                    if (s.getTitle().toLowerCase().contains(word.toLowerCase())&& s.getVideoState().equals(VideoState.STREAM))
                         videoPOJOList2.add(s);
 
                 }

@@ -37,7 +37,7 @@ class StartStream extends React.Component {
 
     componentDidMount() {
         this.state.userId = localStorage.getItem('loggedUser')
-
+        this.forceUpdate()
     }
 
     onChangeTag(event) {
@@ -66,7 +66,6 @@ class StartStream extends React.Component {
 
 
     submitStart (event) {
-            alert(this.state.tag)
 
             axios({
                 method:'post',
@@ -81,10 +80,9 @@ class StartStream extends React.Component {
             }).then(response => response.data)
                 .then((data) =>{
                     this.setState({video: data});
-
                         this.state.isStarted=true
-                        alert(this.state.isStarted)
                         this.forceUpdate()
+                        localStorage.setItem('streamStarted', 'true');
 
 
 

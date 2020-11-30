@@ -38,13 +38,15 @@ class VideosList extends React.Component{
         localStorage.setItem('chosenVideo', video.videoId)
         //tmp=
         alert(typeof localStorage.getItem('chosenVideo'))
-        //if()
-        window.location = "/result";
+        if ('USER' === localStorage.getItem('typeOfUser') && 'MODERATOR' === localStorage.getItem('typeOfUser')) {
+            window.location = "/user/result";
+        }else  window.location = "/result";
+
 
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8080/getVideos")
+        axios.get("http://localhost:8080/getVideosByText?text=@everything")
             .then(response => response.data)
             .then((data) =>{
                 this.setState({videos: data});
@@ -87,7 +89,7 @@ class VideosList extends React.Component{
                     <ListGroup>
                         {this.state.videos.length === 0 ?
                             <ListGroup.Item>
-                                Nie znaleziono żadnych filmów.
+                                Nie znaleziono żadnych trwajacych strumieni.
                             </ListGroup.Item> :
                             this.state.videos.map((video) => (
                                 <ListGroup.Item action onClick={() => this.itemClicked(video)}>
