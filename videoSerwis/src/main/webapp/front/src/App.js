@@ -19,7 +19,6 @@ import EditTelephone from "./Components/EditTelephone";
 import EditName from "./Components/EditName";
 import EditLogin from "./Components/EditLogin";
 import EditSurname from "./Components/EditSurname";
-import Watch from "./Components/Watch";
 import Video from "./Components/Video";
 import VideosList from "./Components/VideosList";
 import UserAdmin from "./Components/UserAdmin";
@@ -75,7 +74,7 @@ function App() {
                           <Route path={"/activate/:userId"} exact component={Activate}/>
                           <Route path={"/laststep/:userId/:email"} exact component={LastStep}/>
 
-                          <Route path={"/user"} exact component={Watch}/>
+                          <Route path={"/user"} exact component={Welcome}/>
                           <Route path={"/admin/profil"} exact component={Profil}/>
                           <Route path={"/user/profil"} exact component={Profil}/>
                           <Route path={"/admin/users"} exact component={UsersList}/>

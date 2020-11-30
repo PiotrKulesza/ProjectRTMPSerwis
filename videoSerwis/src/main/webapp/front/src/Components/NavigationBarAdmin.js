@@ -21,7 +21,7 @@ class NavigationBarAdmin extends React.Component{
             && this.state.user.role !== null) {
             window.location = "/loggout"
         }else
-        if ('USER' === localStorage.getItem('typeOfUser') && 'MODERATOR' === localStorage.getItem('typeOfUser')) {
+        if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser')) {
             window.location = "/user"
         }
 

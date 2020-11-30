@@ -3,7 +3,7 @@ import {Button, Card, Col, Form, Alert,Navbar} from "react-bootstrap";
 import axios from "axios";
 import ReactPlayer from "react-player";
 import Avatar from "react-avatar";
-import "./css/Video.css"
+import {ip} from "./config/config.json"
 
 class Video extends React.Component {
 
@@ -17,7 +17,6 @@ class Video extends React.Component {
 
 
     }
-//<Avatar name={this.state.video.userPOJO.login} size="50" round={true}></Avatar>
 
 
      componentDidMount() {
@@ -25,7 +24,7 @@ class Video extends React.Component {
 
         axios({
             method:'get',
-            url:'http://localhost:8080/getVideoById?videoId='+this.state.videoId
+            url:'http://'+ip+':8080/getVideoById?videoId='+this.state.videoId
         }).then(response => response.data)
             .then((data) =>{
 
@@ -53,7 +52,7 @@ class Video extends React.Component {
                     </Card.Header>
                     <Card.Body>
                         <ReactPlayer
-                            url={"http://192.168.56.101:8089/hls/"
+                            url={"http://"+ip+":8089/hls/"
                             +this.state.video.userPOJO.login
                             +".m3u8"}
                             className='react-player'

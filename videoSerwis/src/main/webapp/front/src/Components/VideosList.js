@@ -1,8 +1,7 @@
 import React from "react";
-import { withRouter } from "react-router";
 import axios from 'axios';
 import {Button, Card, Col, Form,ListGroup} from "react-bootstrap";
-import Avatar from "react-avatar";
+import {ip} from "./config/config.json"
 
 class VideosList extends React.Component{
     constructor(props) {
@@ -24,7 +23,7 @@ class VideosList extends React.Component{
 
         axios({
             method:'get',
-            url:'http://localhost:8080/getVideosByText?text='+this.state.text,
+            url:'http://'+ip+':8080/getVideosByText?text='+this.state.text,
         }).then(response => response.data)
             .then((data) =>{
                 this.setState({videos: data});
@@ -36,8 +35,6 @@ class VideosList extends React.Component{
 
     itemClicked = (video) => {
         localStorage.setItem('chosenVideo', video.videoId)
-        //tmp=
-        alert(typeof localStorage.getItem('chosenVideo'))
         if ('USER' === localStorage.getItem('typeOfUser') && 'MODERATOR' === localStorage.getItem('typeOfUser')) {
             window.location = "/user/result";
         }else  window.location = "/result";
@@ -46,7 +43,7 @@ class VideosList extends React.Component{
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8080/getVideosByText?text=@everything")
+        axios.get("http://"+ip+":8080/getVideosByText?text=@everything")
             .then(response => response.data)
             .then((data) =>{
                 this.setState({videos: data});

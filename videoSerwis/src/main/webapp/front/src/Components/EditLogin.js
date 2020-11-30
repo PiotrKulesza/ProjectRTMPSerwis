@@ -1,8 +1,7 @@
 import React from "react";
-import { withRouter } from "react-router";
 import axios from 'axios';
-import {Button, Card, Col, Form,ListGroup} from "react-bootstrap";
-import Avatar from "react-avatar";
+import {Button, Card, Col, Form} from "react-bootstrap";
+import {ip} from "./config/config.json"
 
 class EditLogin extends React.Component{
     constructor(props) {
@@ -30,7 +29,7 @@ class EditLogin extends React.Component{
 
         axios({
             method:'put',
-            url:'http://localhost:8080/putUserLogin?userId='+this.state.userId+'&login='+this.state.login,
+            url:'http://'+ip+':8080/putUserLogin?userId='+this.state.userId+'&login='+this.state.login,
         }).then(response => response.data)
             .then((data) =>{
                 this.setState({returnedValue: data});
@@ -47,7 +46,7 @@ class EditLogin extends React.Component{
 
     componentDidMount() {
         this.state.userId = localStorage.getItem('loggedUser')
-        if ('USER' === localStorage.getItem('typeOfUser') && 'MODERATOR' === localStorage.getItem('typeOfUser')) {
+        if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser')) {
             this.state.userType="user"
         }else{
             this.state.userType="admin"

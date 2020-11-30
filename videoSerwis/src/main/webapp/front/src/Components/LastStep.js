@@ -1,6 +1,7 @@
 import React from "react";
 import {Jumbotron} from "react-bootstrap";
 import axios from "axios";
+import {ip} from "./config/config.json"
 
 class LastStep extends React.Component{
 
@@ -17,7 +18,7 @@ class LastStep extends React.Component{
 
             axios({
                 method:'post',
-                url:'http://localhost:8080/sendEmail?email='+this.props.match.params.email+
+                url:'http://'+ip+':8080/sendEmail?email='+this.props.match.params.email+
                 '&userId='+this.props.match.params.userId
             })
 

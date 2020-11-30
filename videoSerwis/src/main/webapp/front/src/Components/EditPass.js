@@ -1,8 +1,7 @@
 import React from "react";
-import { withRouter } from "react-router";
 import axios from 'axios';
 import {Alert, Button, Card, Col, Form, ListGroup} from "react-bootstrap";
-import Avatar from "react-avatar";
+import {ip} from "./config/config.json"
 
 class EditPass extends React.Component{
     constructor(props) {
@@ -30,7 +29,7 @@ class EditPass extends React.Component{
         if(this.state.newPass===this.state.newPassRep)
             axios({
                 method:'put',
-                url:'http://localhost:8080/putPassword?newPass='
+                url:'http://'+ip+':8080/putPassword?newPass='
                     +this.state.newPass
                     +'&oldPass='
                     +this.state.oldPass

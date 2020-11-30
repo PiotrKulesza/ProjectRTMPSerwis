@@ -2,6 +2,8 @@ import React from "react";
 import {Button, Form, Card, Col} from "react-bootstrap";
 import axios from 'axios';
 import "./css/Login.css"
+import {ip} from "./config/config.json"
+
 
 class Login extends React.Component {
 
@@ -21,7 +23,7 @@ class Login extends React.Component {
     submitLogin(event){
         axios({
             method:'get',
-            url:'http://localhost:8080/getUserByEmailAndPass?email='+this.state.email+'&password='+this.state.password
+            url:'http://'+ip+':8080/getUserByEmailAndPass?email='+this.state.email+'&password='+this.state.password
         }).then(response => response.data)
             .then((data)=>{
                 this.setState({user:data});

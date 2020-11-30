@@ -1,10 +1,9 @@
 import React from "react";
-import {Button, Card, Col, Form, Alert} from "react-bootstrap";
+import {Button, Card, Col, Form} from "react-bootstrap";
 import axios from "axios";
 import "./css/Video.css"
-import Avatar from "react-avatar";
 import ReactPlayer from "react-player";
-import {RiChatHistoryFill} from "react-icons/all";
+import {ip} from "./config/config.json"
 
 class StartStream extends React.Component {
 
@@ -42,6 +41,7 @@ class StartStream extends React.Component {
 
     onChangeTag(event) {
         this.setState({ tag: event.target.value })
+
     }
 
     submitStop (event) {
@@ -49,13 +49,12 @@ class StartStream extends React.Component {
 
         axios({
             method:'put',
-            url:'http://localhost:8080/putEndVideoStream?videoId='
+            url:'http://'+ip+':8080/putEndVideoStream?videoId='
                 +this.state.video.videoId
         }).then(response => response.data)
             .then((data) =>{
                     this.state.isStarted=false
                     this.forceUpdate()
-
 
 
             });
@@ -64,12 +63,24 @@ class StartStream extends React.Component {
         event.preventDefault();
     }
 
+    componentWillUnmount() {
+        if(this.state.isStarted==true)axios({
+            method:'put',
+            url:'http://'+ip+':8080/putEndVideoStream?videoId='
+                +this.state.video.videoId
+        }).then(response => response.data)
+            .then((data) =>{
+                this.state.isStarted=false
+                this.forceUpdate()
+            });
+    }
+
 
     submitStart (event) {
 
             axios({
                 method:'post',
-                url:'http://localhost:8080/postVideo?tag='
+                url:'http://'+ip+':8080/postVideo?tag='
                     +this.state.tag
                     +'&title='
                     +this.state.title
@@ -82,9 +93,6 @@ class StartStream extends React.Component {
                     this.setState({video: data});
                         this.state.isStarted=true
                         this.forceUpdate()
-                        localStorage.setItem('streamStarted', 'true');
-
-
 
                 });
 
@@ -101,7 +109,7 @@ class StartStream extends React.Component {
                 <Form  onSubmit={this.submitStart}  id={"startStreamFormId"}>
                     <Card.Header>
                         <h3>Wzór do rozpoczęcia strumienia</h3>
-                        <p>Serwer: rtmp://192.168.56.101:1935/show/</p>
+                        <p>Serwer: rtmp://{ip}:1935/show/</p>
                         <p>Klucz strumienia: twój login</p>
                     </Card.Header>
                     <Card.Body>
@@ -180,14 +188,14 @@ class StartStream extends React.Component {
                 <Card.Body>
 
                             <ReactPlayer
-                            url={"http://localhost:8089/hls/"
+                            url={"http://"+ip+":8089/hls/"
                             +this.state.video.userPOJO.login
                             +".m3u8"}
                             className='react-player'
                             playing
                             width='100%'
                             height='100%'
-                            controls = {true}/>:
+                            controls = {true}/>
 
 
 

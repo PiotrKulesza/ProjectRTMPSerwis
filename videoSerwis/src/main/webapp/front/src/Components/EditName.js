@@ -1,8 +1,7 @@
 import React from "react";
-import { withRouter } from "react-router";
 import axios from 'axios';
 import {Button, Card, Col, Form,ListGroup} from "react-bootstrap";
-import Avatar from "react-avatar";
+import {ip} from "./config/config.json"
 
 class EditName extends React.Component{
     constructor(props) {
@@ -29,7 +28,7 @@ class EditName extends React.Component{
 
         axios({
             method:'put',
-            url:'http://localhost:8080/putUserName?userId='+this.state.userId+'&name='+this.state.name,
+            url:'http://'+ip+':8080/putUserName?userId='+this.state.userId+'&name='+this.state.name,
         });
         window.location = "/"+this.state.userType+"/profil";
         this.forceUpdate();
@@ -38,7 +37,7 @@ class EditName extends React.Component{
 
     componentDidMount() {
         this.state.userId = localStorage.getItem('loggedUser')
-        if ('USER' === localStorage.getItem('typeOfUser') && 'MODERATOR' === localStorage.getItem('typeOfUser')) {
+        if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser')) {
             this.state.userType="user"
         }else{
             this.state.userType="admin"

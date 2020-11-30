@@ -10,9 +10,7 @@ import com.project.videoSerwis.services.IUserService;
 import com.project.videoSerwis.services.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.List;
@@ -122,7 +120,7 @@ public class VideoServiceController {
                                       @RequestParam("password") String password) {
 
 
-
+        System.out.println("test");
         return iUserService.getUserByEmailAndPassword(email,password);
 
     }
@@ -252,25 +250,6 @@ public class VideoServiceController {
         iVideoService.deleteVideo(videoId);
     }
 
-    @RequestMapping(value = "/getVideosByUser", method = RequestMethod.GET)
-    @ResponseBody
-    public List<VideoPOJO> getVideosByUser(@RequestParam("userId") String userId) {
-
-
-
-        return iVideoService.getVideosByUser(userId);
-
-    }
-
-    @RequestMapping(value = "/getVideos", method = RequestMethod.GET)
-    @ResponseBody
-    public List<VideoPOJO> getVideos() {
-
-
-
-        return iVideoService.getVideos();
-
-    }
 
     @RequestMapping(value = "/getVideoById", method = RequestMethod.GET)
     @ResponseBody
@@ -280,6 +259,14 @@ public class VideoServiceController {
 
         return iVideoService.getVideoById(videoId);
 
+    }
+
+    @RequestMapping(value = "/getVideos", method = RequestMethod.GET)
+    @ResponseBody
+    public List<VideoPOJO> getVideos() {
+
+
+        return iVideoService.getVideos();
     }
 
     @RequestMapping(value = "/getVideosByText", method = RequestMethod.GET)

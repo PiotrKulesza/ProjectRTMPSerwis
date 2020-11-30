@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Card,Table} from 'react-bootstrap';
 import Avatar from "react-avatar";
 import { FiEdit  } from 'react-icons/fi';
+import {ip} from "./config/config.json"
 
 class Profil extends React.Component{
     constructor(props) {
@@ -16,18 +17,20 @@ class Profil extends React.Component{
     }
 
     componentDidMount() {
-        if ('USER' === localStorage.getItem('typeOfUser') && 'MODERATOR' === localStorage.getItem('typeOfUser')) {
+
+        if ("USER" === localStorage.getItem('typeOfUser') || "MODERATOR" === localStorage.getItem('typeOfUser')) {
             this.state.userType="user"
         }else{
             this.state.userType="admin"
         }
 
 
+
         this.state.userId = localStorage.getItem('loggedUser')
 
         axios({
             method:'get',
-            url:'http://localhost:8080/getUsersById?userId='+this.state.userId,
+            url:'http://'+ip+':8080/getUsersById?userId='+this.state.userId,
         }).then(response => response.data)
             .then((data) =>{
                 this.setState({users: data});

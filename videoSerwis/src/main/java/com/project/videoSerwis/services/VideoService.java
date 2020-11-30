@@ -100,8 +100,15 @@ public class VideoService implements IVideoService{
 
     @Override
     public VideoPOJO getVideoById(String videoId) {
-        if ( videoRepository.findById(videoId).isPresent())
-            return videoRepository.findById(videoId).get();
+        if ( videoRepository.findById(videoId).isPresent()) {
+            VideoPOJO videoPOJO = videoRepository.findById(videoId).get();
+            videoPOJO.getUserPOJO().setPassword(null);
+            videoPOJO.getUserPOJO().setEmail(null);
+            videoPOJO.getUserPOJO().setTelephone(null);
+            videoPOJO.getUserPOJO().setName(null);
+            videoPOJO.getUserPOJO().setSurname(null);
+            return videoPOJO;
+        }
         else return null;
     }
 
@@ -126,8 +133,15 @@ public class VideoService implements IVideoService{
             List<VideoPOJO> videoPOJOList2 = new ArrayList<>();
             videoPOJOList.stream().forEach(s -> {
                 for (String word : strings) {
-                    if (s.getTitle().toLowerCase().contains(word.toLowerCase())&& s.getVideoState().equals(VideoState.STREAM))
+                    if (s.getTitle().toLowerCase().contains(word.toLowerCase())&& s.getVideoState().equals(VideoState.STREAM)){
+                        s.getUserPOJO().setPassword(null);
+                        s.getUserPOJO().setEmail(null);
+                        s.getUserPOJO().setTelephone(null);
+                        s.getUserPOJO().setName(null);
+                        s.getUserPOJO().setSurname(null);
                         videoPOJOList2.add(s);
+                    }
+
 
                 }
             });

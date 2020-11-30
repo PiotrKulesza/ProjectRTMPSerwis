@@ -1,6 +1,7 @@
 import React from "react";
 import {Button, Card, Col, Form, Alert} from "react-bootstrap";
 import axios from "axios";
+import {ip} from "./config/config.json"
 
 class Register extends React.Component {
 
@@ -36,13 +37,13 @@ class Register extends React.Component {
         if(this.state.password===this.state.rep_password){
             axios({
                 method:'post',
-                url:'http://localhost:8080/postUser',
+                url:'http://'+ip+':8080/postUser',
                 data: params
             }).then(response => response.data)
                 .then((data) =>{
                     this.setState({postReturn: data});
                     if(this.state.postReturn !== 1 && this.state.postReturn !== 2 && this.state.postReturn !=='')
-                        window.location = "http://localhost:3000/laststep/"+this.state.postReturn+"/"+this.state.email
+                        window.location = "http://"+ip+":3000/laststep/"+this.state.postReturn+"/"+this.state.email
 
                 });
 

@@ -1,8 +1,8 @@
 import React from "react";
-import { withRouter } from "react-router";
 import axios from 'axios';
 import {Button, Card, Col, Form,ListGroup} from "react-bootstrap";
 import Avatar from "react-avatar";
+import {ip} from "./config/config.json"
 
 class UsersList extends React.Component{
     constructor(props) {
@@ -29,7 +29,7 @@ class UsersList extends React.Component{
 
         axios({
             method:'get',
-            url:'http://localhost:8080/getUserByText?text='+this.state.text,
+            url:'http://'+ip+':8080/getUserByText?text='+this.state.text,
         }).then(response => response.data)
             .then((data) =>{
                 this.setState({users: data});
@@ -46,7 +46,7 @@ class UsersList extends React.Component{
     }
 
     componentDidMount() {
-        axios.get("http://localhost:8080/getUsers")
+        axios.get("http://"+ip+":8080/getUsers")
             .then(response => response.data)
             .then((data) =>{
                 this.setState({users: data});

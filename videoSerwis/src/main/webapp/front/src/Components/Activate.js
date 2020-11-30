@@ -1,6 +1,7 @@
 import React from "react";
 import {Jumbotron} from "react-bootstrap";
 import axios from "axios";
+import {ip} from "./config/config.json"
 
 class Activate extends React.Component{
 
@@ -17,7 +18,7 @@ class Activate extends React.Component{
 
             axios({
                 method:'put',
-                url:'http://localhost:8080/putActivate?userId='+this.props.match.params.userId
+                url:'http://'+ip+':8080/putActivate?userId='+this.props.match.params.userId
             })
 
     }
