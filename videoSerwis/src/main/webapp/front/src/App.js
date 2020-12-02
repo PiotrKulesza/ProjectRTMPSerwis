@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Col, Container, Jumbotron, Row} from 'react-bootstrap'
+import {Col, Container, Row} from 'react-bootstrap'
 import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
 import './App.css';
 import 'semantic-ui-css/semantic.min.css'
@@ -26,6 +26,9 @@ import Activate from "./Components/Activate";
 import LastStep from "./Components/LastStep";
 import EditPass from "./Components/EditPass";
 import StartStream from "./Components/StartStream";
+import Banned from "./Components/Banned";
+import WelcomeAdmin from "./Components/WelcomeAdmin";
+import WelcomeUser from "./Components/WelcomeUser";
 
 function App() {
   return (<div className="grid-container">
@@ -36,6 +39,7 @@ function App() {
           <Route path={"/register"} exact component={NavigationBar}/>
           <Route path={"/result"} exact component={NavigationBar}/>
           <Route path={"/videoslist"} exact component={NavigationBar}/>
+          <Route path={"/banned"} exact component={NavigationBar}/>
           <Route path={"/activate/:userId"} exact component={NavigationBar}/>
           <Route path={"/laststep/:userId/:email"} exact component={NavigationBar}/>
 
@@ -59,7 +63,7 @@ function App() {
           <Route path={"/admin/editName"} exact component={NavigationBarAdmin}/>
           <Route path={"/admin/editSurname"} exact component={NavigationBarAdmin}/>
           <Route path={"/admin/editPass"} exact component={NavigationBarAdmin}/>
-          <Route path={"/admin/user/:userId"} exact component={  NavigationBarAdmin}/>
+          <Route path={"/admin/user/:userId"} exact component={NavigationBarAdmin}/>
           <Container>
               <Row>
                   <Col lg={12} >
@@ -70,11 +74,13 @@ function App() {
                           <Route path={"/register"} exact component={Register}/>
                           <Route path={"/loggout"} exact component={Loggout}/>
                           <Route path={"/result"} exact component={Video}/>
+                          <Route path={"/banned"} exact component={Banned}/>
                           <Route path={"/videoslist"} exact component={VideosList}/>
                           <Route path={"/activate/:userId"} exact component={Activate}/>
                           <Route path={"/laststep/:userId/:email"} exact component={LastStep}/>
 
-                          <Route path={"/user"} exact component={Welcome}/>
+                          <Route path={"/user"} exact component={WelcomeUser}/>
+                          <Route path={"/admin"} exact component={WelcomeAdmin}/>
                           <Route path={"/admin/profil"} exact component={Profil}/>
                           <Route path={"/user/profil"} exact component={Profil}/>
                           <Route path={"/admin/users"} exact component={UsersList}/>

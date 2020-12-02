@@ -22,8 +22,7 @@ public interface IUserService {
     public void putUserRole(String userId, String roleName);
 
     public void putActivate(String userId);
-    public void putUnban(String userId);
-    public void putBan(String userId);
+    public void putState(String userId, String state);
 
     public String putUserLogin(String userId, String login);
 

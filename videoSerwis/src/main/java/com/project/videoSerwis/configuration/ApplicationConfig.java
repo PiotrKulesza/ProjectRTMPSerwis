@@ -11,16 +11,19 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 class ApplicationConfig extends AbstractMongoClientConfiguration {
 
 
-    @Value("${spring.data.mongodb.uri}")
-    public String mongoUri;
+    @Value("${mongodb}")
+    public String mongo_uri;
+
+    @Value("${spring.data.mongodb.database}")
+    public String database;
 
     @Override
     protected void configureClientSettings(MongoClientSettings.Builder builder) {
-        builder.applyConnectionString(new ConnectionString(mongoUri));
+        builder.applyConnectionString(new ConnectionString("mongodb://"+mongo_uri));
     }
 
     @Override
     protected String getDatabaseName() {
-        return "projectdb";
+        return database;
     }
 }

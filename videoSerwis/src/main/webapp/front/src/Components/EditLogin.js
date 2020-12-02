@@ -14,19 +14,13 @@ class EditLogin extends React.Component{
         };
         this.valueChange = this.valueChange.bind(this)
         this.submitSearch = this.submitSearch.bind(this)
-
     }
+
     valueChange  (event){
-        this.setState({
-            [event.target.name]:event.target.value
-        })
+        this.setState({[event.target.name]:event.target.value})
     }
+
     submitSearch (event) {
-
-
-        const params = new URLSearchParams();
-        params.append('Id',this.state.userId+'');
-
         axios({
             method:'put',
             url:'http://'+ip+':8080/putUserLogin?userId='+this.state.userId+'&login='+this.state.login,
@@ -35,7 +29,6 @@ class EditLogin extends React.Component{
                 this.setState({returnedValue: data});
             });
         this.forceUpdate();
-
         if(this.state.returnedValue===1){
             alert("Taki użytkonwik już istnieje.")
         }else if(this.state.returnedValue===''){
@@ -87,16 +80,10 @@ class EditLogin extends React.Component{
 
                         </div>
                     </Card.Footer>
-
                 </Form>
-
-
-
-
             </Card>
         );
     }
-
 }
 
 

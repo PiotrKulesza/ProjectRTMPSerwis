@@ -13,19 +13,17 @@ class EditTelephone extends React.Component{
         };
         this.valueChange = this.valueChange.bind(this)
         this.submitSearch = this.submitSearch.bind(this)
-
     }
+
     valueChange  (event){
         this.setState({
             [event.target.name]:event.target.value
         })
     }
+
     submitSearch (event) {
-
-
         const params = new URLSearchParams();
         params.append('Id',this.state.userId+'');
-
         axios({
             method:'put',
             url:'http://'+ip+':8080/putUserTelephone?userId='+this.state.userId+'&telephone='+this.state.telephone,
@@ -47,11 +45,9 @@ class EditTelephone extends React.Component{
     render() {
         return (
             <Card className={"border border-light bg-light text-black"}>
-
                     <Form  onSubmit={this.submitSearch} id={"searchFormId"}>
                         <Card.Body>
                             <Form.Row>
-
                                 <Form.Group as={Col} controlId="formBasicPriceForFood">
                                     <Form.Label>Nowy numer użytkonwika</Form.Label>
                                     <Form.Control
@@ -63,11 +59,8 @@ class EditTelephone extends React.Component{
                                         onChange={this.valueChange}
                                         placeholder="telephone"
                                         className={"bg-light text-black"}
-
                                     />
-
                                 </Form.Group>
-
                             </Form.Row>
                         </Card.Body>
                         <Card.Footer>
@@ -75,21 +68,12 @@ class EditTelephone extends React.Component{
                                 <Button size="sm" variant="success" type="submit" style={{"textAlign":"center"}}>
                                     Zmień
                                 </Button>{" "}
-
                             </div>
                         </Card.Footer>
-
                     </Form>
-
-
-
-
             </Card>
         );
     }
-
 }
-
-
 
 export default EditTelephone;

@@ -36,6 +36,11 @@ class StartStream extends React.Component {
 
     componentDidMount() {
         this.state.userId = localStorage.getItem('loggedUser')
+        axios({
+            method:'put',
+            url:'http://'+ip+':8080/putEndToAllVideoStreams?userId='
+                +this.state.userId
+        })
         this.forceUpdate()
     }
 
@@ -45,8 +50,6 @@ class StartStream extends React.Component {
     }
 
     submitStop (event) {
-
-
         axios({
             method:'put',
             url:'http://'+ip+':8080/putEndVideoStream?videoId='
@@ -58,8 +61,6 @@ class StartStream extends React.Component {
 
 
             });
-
-
         event.preventDefault();
     }
 

@@ -31,47 +31,6 @@ public class VideoService implements IVideoService{
         videoPOJO.setUserPOJO(userRepository.findById(userId).get());
         videoPOJO.setDateTime(new Date(Calendar.getInstance().getTime().getTime()));
         videoRepository.save(videoPOJO);
-
-        /*try {
-
-
-            /*Process processDuration = new ProcessBuilder("ffmpeg",
-                    "-i",
-                    streamPath,
-                    "-c",
-                    "copy",
-                    "-y",
-                    path).redirectErrorStream(true).start();
-
-            StringBuilder strBuild = new StringBuilder();
-            try (BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(processDuration.getInputStream(), Charset.defaultCharset()));) {
-                String line;
-                while ((line = processOutputReader.readLine()) != null) {
-                    strBuild.append(line + System.lineSeparator());
-                }
-                processDuration.waitFor();
-            }
-            String outputJson = strBuild.toString().trim();
-            System.out.println(outputJson);*/
-
-
-
-
-            /*System.out.println("test");
-            ip = InetAddress.getLocalHost();
-            //"sudo ffmpeg -i \"http://localhost:8089/hls/UserNum1.m3u8\" -c copy -y /home/webapp/videos/5fc3dc2a98ca7525dfd6cd9d.mp4"
-            Process p = Runtime.getRuntime().exec(
-                    "sudo ffmpeg -i \"http://localhost:8089/hls/UserNum1.m3u8\" -t 1 -c copy -y /home/webapp/videos/5fc3dc2a98ca7525dfd6cd9d.mp4");
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String s;
-            while ((s = stdInput.readLine()) != null) {
-                System.out.println(s);
-            }
-
-        } catch (IOException ) {
-            e.printStackTrace();
-        }*/
-
         return videoPOJO;
     }
 
@@ -151,5 +110,16 @@ public class VideoService implements IVideoService{
         }
 
 
+    }
+
+    @Override
+    public void putEndToAllVideoStreams(String userId) {
+        List<VideoPOJO> videoPOJOS = getVideos();
+        videoPOJOS.stream().filter(s -> s.getUserPOJO().getUserId().equals(userId))
+                .forEach(s ->{
+                    s.setVideoState(VideoState.STREAM_ENDED);
+                    videoRepository.save(s);
+                        }
+                );
     }
 }

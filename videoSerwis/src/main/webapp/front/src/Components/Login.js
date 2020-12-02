@@ -4,9 +4,7 @@ import axios from 'axios';
 import "./css/Login.css"
 import {ip} from "./config/config.json"
 
-
 class Login extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +13,6 @@ class Login extends React.Component {
             user:{},
             textError:""
         }
-
         this.valueChange = this.valueChange.bind(this)
         this.submitLogin = this.submitLogin.bind(this)
     }
@@ -28,9 +25,18 @@ class Login extends React.Component {
             .then((data)=>{
                 this.setState({user:data});
                 if ('null' !== this.state.user.userId && typeof this.state.user.userId !== "undefined" && this.state.user.role !== null) {
-                    localStorage.setItem('loggedUser', this.state.user.userId);
-                    localStorage.setItem('typeOfUser', this.state.user.role.roleName);
-                    window.location = "/test";
+                    if(this.state.user.state==='ACTIVATED'){
+                        localStorage.setItem('loggedUser', this.state.user.userId);
+                        localStorage.setItem('typeOfUser', this.state.user.role.roleName);
+                        window.location = "/test";
+                    }else if(this.state.user.state==='INACTIVATED'){
+                        localStorage.setItem('state', 'INACTIVATED');
+                        window.location = "/laststep/"+this.state.user.userId+"/"+this.state.user.email;
+
+                    }else {
+                        localStorage.setItem('state', 'BANNED');
+                        window.location = "/banned";
+                    }
                 }
                 else {
                     this.state.textError="Podano niewałaściwy email albo hasło.";
@@ -52,7 +58,6 @@ class Login extends React.Component {
                 <Card.Header>Zaloguj się</Card.Header>
                 <Form onSubmit={this.submitLogin} id={"loginFormId"}>
                     <Card.Body>
-
                         <Form.Group  controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
@@ -63,7 +68,6 @@ class Login extends React.Component {
                                 onChange={this.valueChange}
                                 placeholder="name@example.com"
                                 className={"bg-light text-black"}
-
                             />
                             <Form.Text id = {"emailTextError"}>
                                 <p>{this.state.textError}</p>
@@ -93,7 +97,6 @@ class Login extends React.Component {
 
         );
     }
-
 }
 
 export default Login;

@@ -13,19 +13,17 @@ class EditSurname extends React.Component{
         };
         this.valueChange = this.valueChange.bind(this)
         this.submitSearch = this.submitSearch.bind(this)
-
     }
+
     valueChange  (event){
         this.setState({
             [event.target.name]:event.target.value
         })
     }
+
     submitSearch (event) {
-
-
         const params = new URLSearchParams();
         params.append('Id',this.state.userId+'');
-
         axios({
             method:'put',
             url:'http://'+ip+':8080/putUserSurname?userId='+this.state.userId+'&surname='+this.state.surname,
@@ -47,11 +45,9 @@ class EditSurname extends React.Component{
     render() {
         return (
             <Card className={"border border-light bg-light text-black"}>
-
                 <Form  onSubmit={this.submitSearch} id={"searchFormId"}>
                     <Card.Body>
                         <Form.Row>
-
                             <Form.Group as={Col} controlId="formBasicPriceForFood">
                                 <Form.Label>Nowe nazwisko użytkonwika</Form.Label>
                                 <Form.Control
@@ -63,11 +59,8 @@ class EditSurname extends React.Component{
                                     onChange={this.valueChange}
                                     placeholder="surname"
                                     className={"bg-light text-black"}
-
                                 />
-
                             </Form.Group>
-
                         </Form.Row>
                     </Card.Body>
                     <Card.Footer>
@@ -75,19 +68,12 @@ class EditSurname extends React.Component{
                             <Button size="sm" variant="success" type="submit" style={{"textAlign":"center"}}>
                                 Zmień
                             </Button>{" "}
-
                         </div>
                     </Card.Footer>
-
                 </Form>
-
-
-
-
             </Card>
         );
     }
-
 }
 
 

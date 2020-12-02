@@ -23,5 +23,7 @@ public interface IVideoService {
 
     public List<VideoPOJO> getVideosByText(String text);
 
+    public void putEndToAllVideoStreams(String userId);
+
 
 }

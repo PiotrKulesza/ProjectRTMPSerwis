@@ -4,15 +4,11 @@ import axios from "axios";
 import {ip} from "./config/config.json"
 
 class Activate extends React.Component{
-
     constructor(props) {
         super(props);
         this.state = {
-
         }
-
     }
-
 
     componentDidMount() {
 
@@ -28,7 +24,7 @@ class Activate extends React.Component{
         return (
 
             <Jumbotron className = "bg-light text-dark">
-                <h1>Twoje konto sostało aktywowane</h1>
+                <h1>Twoje konto zostało aktywowane!</h1>
                 <p>
                     Możesz się teraz zalogować.
                 </p>

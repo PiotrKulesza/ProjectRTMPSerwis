@@ -16,16 +16,15 @@ class EditPass extends React.Component{
         };
         this.valueChange = this.valueChange.bind(this)
         this.submitChange = this.submitChange.bind(this)
-
     }
+
     valueChange  (event){
         this.setState({
             [event.target.name]:event.target.value
         })
     }
+
     submitChange (event) {
-
-
         if(this.state.newPass===this.state.newPassRep)
             axios({
                 method:'put',
@@ -42,8 +41,6 @@ class EditPass extends React.Component{
                     if(this.state.returnString ===0)
                         window.location = "/"+this.state.userType+"/profil";
                 });
-
-
         this.forceUpdate();
         event.preventDefault();
     }
@@ -60,13 +57,9 @@ class EditPass extends React.Component{
     render() {
         return (
             <Card className={"border border-light bg-light text-black"}>
-
                 <Form  onSubmit={this.submitChange} id={"searchFormId"}>
                     <Card.Body>
-
-
                         <Form.Row>
-
                             <Form.Group as={Col}>
                                 <Form.Label>Stare Hasło</Form.Label>
                                 <Form.Control
@@ -80,12 +73,9 @@ class EditPass extends React.Component{
                                     className={"bg-light text-black"}
 
                                 />
-
                             </Form.Group>
-
                         </Form.Row>
                         <Form.Row>
-
                             <Form.Group as={Col} >
                                 <Form.Label>Nowe hasło</Form.Label>
                                 <Form.Control
@@ -97,14 +87,10 @@ class EditPass extends React.Component{
                                     onChange={this.valueChange}
                                     placeholder="password"
                                     className={"bg-light text-black"}
-
                                 />
-
                             </Form.Group>
-
                         </Form.Row>
                         <Form.Row>
-
                             <Form.Group as={Col} >
                                 <Form.Label>Powtórz nowe hasło</Form.Label>
                                 <Form.Control
@@ -116,11 +102,8 @@ class EditPass extends React.Component{
                                     onChange={this.valueChange}
                                     placeholder="password"
                                     className={"bg-light text-black"}
-
                                 />
-
                             </Form.Group>
-
                         </Form.Row>
                     </Card.Body>
                     <Card.Footer>
@@ -128,22 +111,15 @@ class EditPass extends React.Component{
                             <Button size="sm" variant="success" type="submit" style={{"textAlign":"center"}}>
                                 Zmień
                             </Button>{" "}
-
                         </div>
                     </Card.Footer>
                     <CheckIfNotMatch newPass={this.state.newPass} newPassRep={this.state.newPassRep}/>
                     <PutReturnAlert returnString ={this.state.returnString}/>
                 </Form>
-
-
-
-
             </Card>
         );
     }
-
 }
-
 
 const PutReturnAlert = (props) => {
     if(props.returnString===1){
@@ -155,7 +131,7 @@ const PutReturnAlert = (props) => {
     }
 }
 
-const AlertIfOldPassNotMatch = (props) => {
+const AlertIfOldPassNotMatch = () => {
     return<div>
         <Alert  variant={"danger"}>
             Podano nie właściwe stare hasło
@@ -163,15 +139,13 @@ const AlertIfOldPassNotMatch = (props) => {
 
 }
 
-const AlertIfUserNotMatch = (props) => {
+const AlertIfUserNotMatch = () => {
     return<div>
         <Alert  variant={"danger"}>
             Oj coś jest nie tak zostaniesz wylogowany.
             {window.location = "loggout"}
         </Alert></div>
-
 }
-
 
 const CheckIfNotMatch = (props) =>{
     if(props.newPass!==props.newPassRep){
@@ -179,23 +153,18 @@ const CheckIfNotMatch = (props) =>{
     }else {
         return <EmptyDiv/>
     }
-
-
 }
 
-const AlertIfPassNotMatch = (props) => {
+const AlertIfPassNotMatch = () => {
     return<div>
         <Alert  variant={"danger"}>
             Hasła nie są identyczne
         </Alert></div>
-
 }
-const EmptyDiv = (props) => {
+
+const EmptyDiv = () => {
     return<div>
     </div>
-
 }
-
-
 
 export default EditPass;

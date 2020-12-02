@@ -8,11 +8,8 @@ class LastStep extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-
         }
-
     }
-
 
     componentDidMount() {
 
@@ -21,21 +18,16 @@ class LastStep extends React.Component{
                 url:'http://'+ip+':8080/sendEmail?email='+this.props.match.params.email+
                 '&userId='+this.props.match.params.userId
             })
-
     }
-
 
     render() {
         return (
-
             <Jumbotron className = "bg-light text-dark">
                 <h1>Twoje konto już istnieje został tylko ostatni krok</h1>
                 <p>
                     Na twój email został wysłany link aktywacyjny, kliknij go i aktywuj swoje konto.
                 </p>
-
             </Jumbotron>
-
         );
     }
 }

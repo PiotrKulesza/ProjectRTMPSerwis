@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Col, Form, Alert,Navbar} from "react-bootstrap";
+import { Card} from "react-bootstrap";
 import axios from "axios";
 import ReactPlayer from "react-player";
 import Avatar from "react-avatar";
@@ -18,6 +18,7 @@ class Video extends React.Component {
 
     }
 
+    componen
 
      componentDidMount() {
         this.state.videoId=localStorage.getItem('chosenVideo')

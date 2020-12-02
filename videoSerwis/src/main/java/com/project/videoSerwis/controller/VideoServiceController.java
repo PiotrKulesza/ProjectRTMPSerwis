@@ -190,6 +190,15 @@ public class VideoServiceController {
 
     }
 
+    @RequestMapping(value = "/putState", method = RequestMethod.PUT)
+    @ResponseBody
+    public void putState(@RequestParam("userId") String userId, @RequestParam("state") String state) {
+
+        iUserService.putState(userId,state);
+
+
+    }
+
     @RequestMapping(value = "/putUserLogin", method = RequestMethod.PUT)
     @ResponseBody
     public String putUserLogin(@RequestParam("userId") String userId, @RequestParam("login") String login) {
@@ -283,6 +292,15 @@ public class VideoServiceController {
     public void putEndVideoStream(@RequestParam("videoId") String videoId) {
 
         iVideoService.putEndVideoStream(videoId);
+
+
+    }
+
+    @RequestMapping(value = "/putEndToAllVideoStreams", method = RequestMethod.PUT)
+    @ResponseBody
+    public void putEndToAllVideoStreams(@RequestParam("userId") String userId) {
+
+        iVideoService.putEndToAllVideoStreams(userId);
 
 
     }

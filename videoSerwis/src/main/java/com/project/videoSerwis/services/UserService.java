@@ -99,26 +99,20 @@ public class UserService implements IUserService{
     public void putActivate(String userId) {
         if(userRepository.findById(userId).isPresent()){
             UserPOJO userPOJO = userRepository.findById(userId).get();
-            if(!userPOJO.getState().equals(State.BANNED))userPOJO.setState(State.ACTIVATED);
+            userPOJO.setState(State.ACTIVATED);
             userRepository.save(userPOJO);
         }
     }
+
     @Override
-    public void putUnban(String userId) {
+    public void putState(String userId, String state) {
         if(userRepository.findById(userId).isPresent()){
             UserPOJO userPOJO = userRepository.findById(userId).get();
-            if(userPOJO.getState().equals(State.BANNED))userPOJO.setState(State.ACTIVATED);
+            userPOJO.setState(State.valueOf(state));
             userRepository.save(userPOJO);
         }
     }
-    @Override
-    public void putBan(String userId) {
-        if(userRepository.findById(userId).isPresent()){
-            UserPOJO userPOJO = userRepository.findById(userId).get();
-            if(!userPOJO.getState().equals(State.BANNED))userPOJO.setState(State.BANNED);
-            userRepository.save(userPOJO);
-        }
-    }
+
 
     @Override
     public String putUserLogin(String userId, String login) {

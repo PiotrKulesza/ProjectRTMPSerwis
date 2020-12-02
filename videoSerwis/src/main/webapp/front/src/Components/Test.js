@@ -15,6 +15,12 @@ class Test extends React.Component{
 
     componentDidMount(){
         this.state.user = localStorage.getItem('loggedUser')
+
+        if(localStorage.getItem('state') === 'BANNED' || localStorage.getItem('state') === 'INACTIVATED' ){
+            window.location = "/loggout"
+        }
+
+
         if ('null' !== this.state.user.userId && typeof this.state.user.userId !== "undefined"
             && this.state.user.role !== null) {
             window.location = "/login"

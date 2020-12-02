@@ -2,6 +2,7 @@ import React from "react";
 import axios from 'axios';
 import {Button, Card, Col, Form,ListGroup} from "react-bootstrap";
 import {ip} from "./config/config.json"
+import Avatar from "react-avatar";
 
 class VideosList extends React.Component{
     constructor(props) {
@@ -35,7 +36,7 @@ class VideosList extends React.Component{
 
     itemClicked = (video) => {
         localStorage.setItem('chosenVideo', video.videoId)
-        if ('USER' === localStorage.getItem('typeOfUser') && 'MODERATOR' === localStorage.getItem('typeOfUser')) {
+        if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser')) {
             window.location = "/user/result";
         }else  window.location = "/result";
 
@@ -91,8 +92,10 @@ class VideosList extends React.Component{
                             this.state.videos.map((video) => (
                                 <ListGroup.Item action onClick={() => this.itemClicked(video)}>
                                     <div >
-                                        <p>{video.title}</p>
-                                        <p>Status filmu:{video.status}</p>
+
+                                        <p><Avatar name={video.userPOJO.login} size="25" round={true}/>
+
+                                            <b>{video.title}</b></p>
                                     </div>
                                 </ListGroup.Item>
 
