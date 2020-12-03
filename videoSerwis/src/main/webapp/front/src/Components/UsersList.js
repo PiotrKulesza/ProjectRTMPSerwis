@@ -5,6 +5,7 @@ import Avatar from "react-avatar";
 import {ip} from "./config/config.json"
 
 class UsersList extends React.Component{
+
     constructor(props) {
         super(props);
         this.state = {
@@ -14,19 +15,16 @@ class UsersList extends React.Component{
         };
         this.valueChange = this.valueChange.bind(this)
         this.submitSearch = this.submitSearch.bind(this)
-
     }
+
     valueChange  (event){
         this.setState({
             [event.target.name]:event.target.value
         })
     }
+
     submitSearch (event) {
         this.state.userId = localStorage.getItem('loggedUser')
-
-        const params = new URLSearchParams();
-        params.append('Id',this.state.userId+'');
-
         axios({
             method:'get',
             url:'http://'+ip+':8080/getUserByText?text='+this.state.text,
@@ -34,15 +32,12 @@ class UsersList extends React.Component{
             .then((data) =>{
                 this.setState({users: data});
             });
-
         this.forceUpdate();
         event.preventDefault();
     }
 
     itemClicked = (user) => {
-
         window.location = "/admin/user/"+user.userId;
-
     }
 
     componentDidMount() {
@@ -62,7 +57,6 @@ class UsersList extends React.Component{
                         <Form.Row>
                             <Form.Label>Użytkownicy</Form.Label>
                             <Form.Group as={Col} controlId="formBasicPriceForFood">
-
                                 <Form.Control
                                     required
                                     type="text"
@@ -72,15 +66,12 @@ class UsersList extends React.Component{
                                     onChange={this.valueChange}
                                     placeholder="login"
                                     className={"bg-light text-black"}
-
                                 />
-
                             </Form.Group>
                             <div >
                                 <Button size="sm" variant="success" type="submit" style={{"textAlign":"center"}}>
                                     Szukaj
                                 </Button>{" "}
-
                             </div>
                         </Form.Row>
                     </Form>
@@ -98,19 +89,11 @@ class UsersList extends React.Component{
                                 </ListGroup.Item>
                             ))
                         }
-
                     </ListGroup>
-
                 </Card.Body>
-
-
-
-
             </Card>
         );
     }
-
 }
-
 
 export default UsersList;

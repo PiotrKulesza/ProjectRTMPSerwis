@@ -16,17 +16,13 @@ class UserAdmin extends React.Component{
             user: [],
 
         };
-
-
         this.onChangeRoleName = this.onChangeRoleName.bind(this)
         this.submitRoleName = this.submitRoleName.bind(this)
         this.onChangeState = this.onChangeState.bind(this)
         this.submitState = this.submitState.bind(this)
     }
 
-
     submitState (event) {
-
         axios({
             method:'put',
             url:'http://'+ip+':8080/putState?state='
@@ -34,13 +30,10 @@ class UserAdmin extends React.Component{
                 +'&userId='
                 +this.state.user.userId
         });
-
-
         event.preventDefault();
     }
 
     submitRoleName (event) {
-
         axios({
             method:'put',
             url:'http://'+ip+':8080/putUserRole?roleName='
@@ -48,18 +41,15 @@ class UserAdmin extends React.Component{
                 +'&userId='
                 +this.state.user.userId
         });
-
-
         event.preventDefault();
     }
 
     onChangeRoleName(event) {
         this.setState({ roleName: event.target.value })
-
     }
+
     onChangeState(event) {
         this.setState({ state: event.target.value })
-
     }
 
     componentDidMount() {
@@ -70,15 +60,12 @@ class UserAdmin extends React.Component{
             .then((data) =>{
                 this.setState({user: data});
                 this.setState({isLoaded: true});
-
             });
     }
-
 
     render() {
         if(this.state.isLoaded===true)
             return (
-
                 <Card className={"border border-light bg-light text-black"}>
                    <Card.Header>
                        <Avatar name={this.state.user.login} size="50" round={true}></Avatar>
@@ -115,7 +102,6 @@ class UserAdmin extends React.Component{
                                                     Zmień
                                                 </Button>
                                             </Form.Group>
-
                                         </Form.Row>
                                     </Form>
                                     <p></p>
@@ -148,7 +134,6 @@ class UserAdmin extends React.Component{
                                     </Form>
                                 </div>
                             }
-
                         </div>
                             :
                             <div>
@@ -179,7 +164,6 @@ class UserAdmin extends React.Component{
                                                         Zmień
                                                     </Button>
                                                 </Form.Group>
-
                                             </Form.Row>
                                         </Form>
                                         <p></p>
@@ -203,11 +187,12 @@ class UserAdmin extends React.Component{
                                                         <option value = {"ACTIVATED"}>ACTIVATED</option>
                                                         <option value = {"INACTIVATED"}>INACTIVATED</option>
                                                     </Form.Control>
-                                                    <Button size={"sm"} variant="success" type="submit" style={{"textAlign":"center", "align":"right"}}>
+                                                    <Button size={"sm"} variant="success"
+                                                            type="submit"
+                                                            style={{"textAlign":"center", "align":"right"}}>
                                                         Zmień
                                                     </Button>
                                                 </Form.Group>
-
                                             </Form.Row>
                                         </Form>
                                     </div>
@@ -215,15 +200,9 @@ class UserAdmin extends React.Component{
                             </div>
                         }
                     </Card.Body>
-
                 </Card>
-
             );else return(<h1>Loading!</h1>)
-
-
     }
-
 }
-
 
 export default UserAdmin;

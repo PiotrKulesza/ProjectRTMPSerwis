@@ -6,12 +6,6 @@ import com.project.videoSerwis.repositories.UserRepository;
 import com.project.videoSerwis.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,15 +20,17 @@ public class VideoService implements IVideoService{
 
     @Override
     public VideoPOJO postVideo(VideoPOJO videoPOJO, String userId) {
-
         videoPOJO.setVideoState(VideoState.STREAM);
         videoPOJO.setUserPOJO(userRepository.findById(userId).get());
         videoPOJO.setDateTime(new Date(Calendar.getInstance().getTime().getTime()));
         videoRepository.save(videoPOJO);
+        videoPOJO.getUserPOJO().setPassword(null);
+        videoPOJO.getUserPOJO().setEmail(null);
+        videoPOJO.getUserPOJO().setTelephone(null);
+        videoPOJO.getUserPOJO().setName(null);
+        videoPOJO.getUserPOJO().setSurname(null);
         return videoPOJO;
     }
-
-
 
     @Override
     public void putEndVideoStream(String videoId){
@@ -43,12 +39,6 @@ public class VideoService implements IVideoService{
             videoPOJO.setVideoState(VideoState.STREAM_ENDED);
             videoRepository.save(videoPOJO);
         }
-    }
-
-    @Override
-    public VideoPOJO getVideoByState(String videoState, String userId) {
-        return videoRepository.findByVideoStateAndUserPOJO(VideoState.valueOf(videoState),
-                userRepository.findById(userId).get());
     }
 
     @Override
@@ -72,18 +62,12 @@ public class VideoService implements IVideoService{
     }
 
     @Override
-    public List<VideoPOJO> getVideosByUser(String userId) {
-        return videoRepository.findAllByUserPOJO(userRepository.findById(userId).get());
-    }
-
-    @Override
     public List<VideoPOJO> getVideos() {
         return videoRepository.findAll();
     }
 
     @Override
     public List<VideoPOJO> getVideosByText(String text) {
-
         List<VideoPOJO>  videoPOJOList = videoRepository.findAll();;
         if(text.equals("@everything")) {
             return videoPOJOList.stream().filter(s->s.getVideoState().equals(VideoState.STREAM)).collect(Collectors.toList());
@@ -108,8 +92,6 @@ public class VideoService implements IVideoService{
                     new HashSet<>(videoPOJOList2));
             return listWithoutDuplicates;
         }
-
-
     }
 
     @Override

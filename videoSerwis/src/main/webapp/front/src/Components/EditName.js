@@ -12,20 +12,16 @@ class EditName extends React.Component{
             userType:''
         };
         this.valueChange = this.valueChange.bind(this)
-        this.submitSearch = this.submitSearch.bind(this)
-
+        this.submitChange = this.submitChange.bind(this)
     }
+
     valueChange  (event){
         this.setState({
             [event.target.name]:event.target.value
         })
     }
-    submitSearch (event) {
 
-
-        const params = new URLSearchParams();
-        params.append('Id',this.state.userId+'');
-
+    submitChange (event) {
         axios({
             method:'put',
             url:'http://'+ip+':8080/putUserName?userId='+this.state.userId+'&name='+this.state.name,
@@ -47,12 +43,10 @@ class EditName extends React.Component{
     render() {
         return (
             <Card className={"border border-light bg-light text-black"}>
-
-                    <Form  onSubmit={this.submitSearch} id={"searchFormId"}>
+                    <Form  onSubmit={this.submitChange}>
                         <Card.Body>
                             <Form.Row>
-
-                                <Form.Group as={Col} controlId="formBasicPriceForFood">
+                                <Form.Group as={Col}>
                                     <Form.Label>Nowe imię użytkonwika</Form.Label>
                                     <Form.Control
                                         required
@@ -63,11 +57,8 @@ class EditName extends React.Component{
                                         onChange={this.valueChange}
                                         placeholder="name"
                                         className={"bg-light text-black"}
-
                                     />
-
                                 </Form.Group>
-
                             </Form.Row>
                         </Card.Body>
                         <Card.Footer>
@@ -75,21 +66,12 @@ class EditName extends React.Component{
                                 <Button size="sm" variant="success" type="submit" style={{"textAlign":"center"}}>
                                     Zmień
                                 </Button>{" "}
-
                             </div>
                         </Card.Footer>
-
                     </Form>
-
-
-
-
             </Card>
         );
     }
-
 }
-
-
 
 export default EditName;

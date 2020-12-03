@@ -6,23 +6,16 @@ class Test extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-
-            user: ''
-
+            userId: ''
         }
-
     }
 
     componentDidMount(){
-        this.state.user = localStorage.getItem('loggedUser')
-
+        this.state.userId = localStorage.getItem('loggedUser')
         if(localStorage.getItem('state') === 'BANNED' || localStorage.getItem('state') === 'INACTIVATED' ){
             window.location = "/loggout"
         }
-
-
-        if ('null' !== this.state.user.userId && typeof this.state.user.userId !== "undefined"
-            && this.state.user.role !== null) {
+        if ('null' !== this.state.userId || typeof this.state.userId !== "undefined") {
             window.location = "/login"
         }else
         if ('ADMIN' === localStorage.getItem('typeOfUser') || 'HEAD_ADMIN' === localStorage.getItem('typeOfUser') ) {
@@ -38,11 +31,9 @@ class Test extends React.Component{
     render() {
         return (
             <Jumbotron className = "bg-light text-dark">
-
             </Jumbotron>
         );
     }
-
 }
 
 export default Test;

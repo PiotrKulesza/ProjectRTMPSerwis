@@ -5,11 +5,9 @@ import com.mongodb.MongoClientSettings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
 class ApplicationConfig extends AbstractMongoClientConfiguration {
-
 
     @Value("${mongodb}")
     public String mongo_uri;

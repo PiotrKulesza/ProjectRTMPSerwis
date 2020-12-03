@@ -14,33 +14,24 @@ class Video extends React.Component {
             video:{},
             isLoading:false
         }
-
-
     }
 
-    componen
-
-     componentDidMount() {
+    componentDidMount() {
         this.state.videoId=localStorage.getItem('chosenVideo')
-
         axios({
             method:'get',
             url:'http://'+ip+':8080/getVideoById?videoId='+this.state.videoId
         }).then(response => response.data)
             .then((data) =>{
-
-
                     this.setState({video: data});
                     this.setState({ isLoading: true });
                     console.log('This is your data', this.state.video);
                 }
             );
-
     }
 
     render() {
         const {isLoading } = this.state;
-
         if (isLoading) {
             return(
                 <Card className="border border-light bg-light text-black">
@@ -49,7 +40,6 @@ class Video extends React.Component {
                         <b className={"login"}>{this.state.video.userPOJO.login}</b>
                         <p></p>
                             <p><b className={"title"}>{this.state.video.title}</b></p>
-
                     </Card.Header>
                     <Card.Body>
                         <ReactPlayer
@@ -63,24 +53,12 @@ class Video extends React.Component {
                             controls = {true}/>
                     </Card.Body>
                     <Card.Footer>
-
-
-
                         <p><b className={"description"}>{this.state.video.description} </b></p>
-
                     </Card.Footer>
-
                 </Card>
             );
-        }else {
-            return <p>Loading ...</p>;
-        }
-
-
+        }else{return <h1>Loading!</h1>;}
     }
-
 }
-
-
 
 export default Video;

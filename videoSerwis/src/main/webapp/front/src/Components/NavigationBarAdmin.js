@@ -2,17 +2,13 @@ import React from "react";
 import {Navbar,Nav} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
-
 class NavigationBarAdmin extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-
             user: ''
-
         }
-
     }
 
     componentDidMount(){
@@ -24,10 +20,9 @@ class NavigationBarAdmin extends React.Component{
         if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser')) {
             window.location = "/user"
         }
-
-
-
-
+        if ('ADMIN' === localStorage.getItem('typeOfUser') || 'HEADADMIN' === localStorage.getItem('typeOfUser') ) {
+            window.location = "/admin"
+        }
     }
 
     render() {
@@ -41,11 +36,9 @@ class NavigationBarAdmin extends React.Component{
                     <Link to="/admin/users" className={"nav-link"}>Lista użytkoników</Link>
                     <Link to="/loggout" className={"nav-link"}>Wyloguj</Link>
                 </Nav>
-
             </Navbar>
         );
     }
-
 }
 
 export default NavigationBarAdmin;

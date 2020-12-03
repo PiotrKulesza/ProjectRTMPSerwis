@@ -13,4 +13,5 @@ class Banned extends React.Component{
         );
     }
 }
+
 export default Banned;

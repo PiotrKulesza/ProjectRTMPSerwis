@@ -5,7 +5,6 @@ class WelcomeUser extends React.Component{
 
     render() {
         return (
-
             <Jumbotron className = "bg-light text-dark">
                 <h1>Witaj użytkowniku!</h1>
                 <p>
@@ -22,4 +21,5 @@ class WelcomeUser extends React.Component{
         );
     }
 }
+
 export default WelcomeUser;

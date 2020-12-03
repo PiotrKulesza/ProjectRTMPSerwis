@@ -12,12 +12,6 @@ import java.util.Properties;
 
 @Service
 public class EmailSenderImpl implements EmailSender{
-
-
-
-
-
-
     @Override
     public void sendEmail(EmailPropertiesPOJO emailPropertiesPOJO, String to, String title, String content) {
 
@@ -41,7 +35,6 @@ public class EmailSenderImpl implements EmailSender{
                     }
                 });
 
-
         MimeMessage mail = new MimeMessage(session);
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail,  true, "UTF-8");
@@ -53,6 +46,5 @@ public class EmailSenderImpl implements EmailSender{
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
     }
 }

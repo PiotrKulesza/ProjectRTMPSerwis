@@ -13,21 +13,15 @@ class Profil extends React.Component{
             userType:'',
             users: {}
         }
-
     }
 
     componentDidMount() {
-
         if ("USER" === localStorage.getItem('typeOfUser') || "MODERATOR" === localStorage.getItem('typeOfUser')) {
             this.state.userType="user"
         }else{
             this.state.userType="admin"
         }
-
-
-
         this.state.userId = localStorage.getItem('loggedUser')
-
         axios({
             method:'get',
             url:'http://'+ip+':8080/getUsersById?userId='+this.state.userId,
@@ -35,14 +29,11 @@ class Profil extends React.Component{
             .then((data) =>{
                 this.setState({users: data});
             });
-
     }
 
     render() {
         return (
             <Card className={"border border-light bg-light text-black"}>
-
-
                 <Table border hover striped variant={"light"}>
                     <thead>
                     <Avatar name={this.state.users.login} size="50" round={true}></Avatar>
@@ -72,16 +63,11 @@ class Profil extends React.Component{
                         <td>Telefon</td>
                         <td>{this.state.users.telephone}<a href={"/"+this.state.userType+"/editTelephone"}><FiEdit   /></a></td>
                     </tr>
-
-
                     </tbody>
                 </Table>
-
-
             </Card>
         );
     }
-
 }
 
 export default Profil;

@@ -13,15 +13,15 @@ class VideosList extends React.Component{
         };
         this.valueChange = this.valueChange.bind(this)
         this.submitSearch = this.submitSearch.bind(this)
-
     }
+
     valueChange  (event){
         this.setState({
             [event.target.name]:event.target.value
         })
     }
-    submitSearch (event) {
 
+    submitSearch (event) {
         axios({
             method:'get',
             url:'http://'+ip+':8080/getVideosByText?text='+this.state.text,
@@ -29,7 +29,6 @@ class VideosList extends React.Component{
             .then((data) =>{
                 this.setState({videos: data});
             });
-
         this.forceUpdate();
         event.preventDefault();
     }
@@ -39,8 +38,6 @@ class VideosList extends React.Component{
         if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser')) {
             window.location = "/user/result";
         }else  window.location = "/result";
-
-
     }
 
     componentDidMount() {
@@ -56,11 +53,10 @@ class VideosList extends React.Component{
         return (
             <Card className={"border border-light bg-light text-black"}>
                 <Card.Header>
-                    <Form  onSubmit={this.submitSearch} id={"searchFormId"}>
+                    <Form  onSubmit={this.submitSearch} >
                         <Form.Row>
                             <Form.Label>Filmy</Form.Label>
-                            <Form.Group as={Col} controlId="formBasicPriceForFood">
-
+                            <Form.Group as={Col} >
                                 <Form.Control
                                     required
                                     type="text"
@@ -70,15 +66,12 @@ class VideosList extends React.Component{
                                     onChange={this.valueChange}
                                     placeholder="Szukaj"
                                     className={"bg-light text-black"}
-
                                 />
-
                             </Form.Group>
                             <div >
                                 <Button size="sm" variant="success" type="submit" style={{"textAlign":"center"}}>
                                     Szukaj
                                 </Button>{" "}
-
                             </div>
                         </Form.Row>
                     </Form>
@@ -91,33 +84,18 @@ class VideosList extends React.Component{
                             </ListGroup.Item> :
                             this.state.videos.map((video) => (
                                 <ListGroup.Item action onClick={() => this.itemClicked(video)}>
-                                    <div >
-
+                                    <div>
                                         <p><Avatar name={video.userPOJO.login} size="25" round={true}/>
-
                                             <b>{video.title}</b></p>
                                     </div>
                                 </ListGroup.Item>
-
-
                             ))
                         }
-
                     </ListGroup>
-
                 </Card.Body>
-
-
-
-
             </Card>
         );
     }
-
 }
-
-
-
-
 
 export default VideosList;

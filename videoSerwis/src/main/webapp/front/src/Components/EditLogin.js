@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios';
-import {Button, Card, Col, Form} from "react-bootstrap";
+import {Alert, Button, Card, Col, Form} from "react-bootstrap";
 import {ip} from "./config/config.json"
 
 class EditLogin extends React.Component{
@@ -27,13 +27,12 @@ class EditLogin extends React.Component{
         }).then(response => response.data)
             .then((data) =>{
                 this.setState({returnedValue: data});
+                if(this.state.returnedValue==='' || this.state.returnedValue===2){
+                    alert("Ups doś poszło nie tak spróbuj ponownie zmienić login.")
+                    window.location = "/loggout";
+                }else window.location = "/"+this.state.userType+"/profil";
+                this.forceUpdate();
             });
-        this.forceUpdate();
-        if(this.state.returnedValue===1){
-            alert("Taki użytkonwik już istnieje.")
-        }else if(this.state.returnedValue===''){
-            alert("Ups doś poszło nie tak spróbuj ponownie zmienić login.")
-        }else window.location = "/"+this.state.userType+"/profil";
         event.preventDefault();
     }
 
@@ -49,11 +48,9 @@ class EditLogin extends React.Component{
     render() {
         return (
             <Card className={"border border-light bg-light text-black"}>
-
                 <Form  onSubmit={this.submitSearch} id={"searchFormId"}>
                     <Card.Body>
                         <Form.Row>
-
                             <Form.Group as={Col} controlId="formBasicPriceForFood">
                                 <Form.Label>Nowy login użytkonwika</Form.Label>
                                 <Form.Control
@@ -65,11 +62,8 @@ class EditLogin extends React.Component{
                                     onChange={this.valueChange}
                                     placeholder="login"
                                     className={"bg-light text-black"}
-
                                 />
-
                             </Form.Group>
-
                         </Form.Row>
                     </Card.Body>
                     <Card.Footer>
@@ -77,15 +71,33 @@ class EditLogin extends React.Component{
                             <Button size="sm" variant="success" type="submit" style={{"textAlign":"center"}}>
                                 Zmień
                             </Button>{" "}
-
                         </div>
                     </Card.Footer>
+                    <PostReturnAlert returnedValue={this.state.returnedValue}/>
                 </Form>
             </Card>
         );
     }
 }
 
+const PostReturnAlert = (props) => {
+    if(props.returnedValue===1){
+        return <AlertIfLoginExist />
+    }else{
+        return <EmptyDiv />
+    }
+}
 
+const EmptyDiv = () => {
+    return<div>
+    </div>
+}
+
+const AlertIfLoginExist = (props) => {
+    return<div>
+        <Alert  variant={"danger"}>
+            Taki login już istnieje
+        </Alert></div>
+}
 
 export default EditLogin;

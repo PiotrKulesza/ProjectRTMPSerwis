@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
-
 import java.util.List;
 
 @RestController
@@ -28,33 +27,28 @@ public class VideoServiceController {
     @Autowired
     private IVideoService iVideoService;
 
-
-
     @Value("${spring.mail.host}")
     public String emailHost;
+
     @Value("${spring.mail.port}")
     public String emailPort;
+
     @Value("${spring.mail.username}")
     public String emailUsername;
+
     @Value("${spring.mail.password}")
     public String emailPassword;
+
     @Value("${PUBLIC_ComponentWebAppPort}")
     public String webappSeverIp;
 
-
-
-
     @RequestMapping(value =  "/sendEmail",  method = RequestMethod.POST)
-    //
     public String send(@RequestParam("userId") String userId, @RequestParam("email") String email) {
-
-
         EmailPropertiesPOJO emailPropertiesPOJO = new EmailPropertiesPOJO();
         emailPropertiesPOJO.setEmailHost(emailHost);
         emailPropertiesPOJO.setEmailPassword(emailPassword);
         emailPropertiesPOJO.setEmailPort(emailPort);
         emailPropertiesPOJO.setEmailUsername(emailUsername);
-
 
         EmailSenderImpl emailSender = new EmailSenderImpl();
         Context context = new Context();
@@ -78,39 +72,27 @@ public class VideoServiceController {
         return "index";
     }
 
-
-
     @RequestMapping(value = "/postUser", method = RequestMethod.POST)
     @ResponseBody
     public String postUser(@ModelAttribute UserPOJO userPOJO) {
-
-
         return iUserService.postUser(userPOJO);
-
     }
 
     @RequestMapping(value = "/getUsers", method = RequestMethod.GET)
     @ResponseBody
     public List<UserPOJO> getUsers() {
-
-
         return iUserService.getUserPojo();
-
     }
 
     @RequestMapping(value = "/getUsersById", method = RequestMethod.GET)
     @ResponseBody
     public UserPOJO getUsersById(@RequestParam("userId") String userId) {
-
-
         return iUserService.getUserById(userId);
     }
 
     @RequestMapping(value = "/getUserByText", method = RequestMethod.GET)
     @ResponseBody
     public List<UserPOJO> getUserByText(@RequestParam("text") String text) {
-
-
         return iUserService.getUserByText(text);
     }
 
@@ -118,144 +100,98 @@ public class VideoServiceController {
     @ResponseBody
     public UserPOJO getUserByEmailAndPass(@RequestParam("email") String email,
                                       @RequestParam("password") String password) {
-
-
         System.out.println("test");
         return iUserService.getUserByEmailAndPassword(email,password);
-
     }
 
     @RequestMapping(value = "/putPassword", method = RequestMethod.PUT)
     @ResponseBody
     public String putPassword(@RequestParam("userId") String userId,@RequestParam("newPass") String newPass,
                             @RequestParam("oldPass") String oldPass) {
-
         return iUserService.putPassword(userId,newPass,oldPass);
-
     }
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
     @ResponseBody
     public Boolean deleteUser(@RequestParam("userId") String userId) {
-
         return iUserService.deleteUser(userId);
-
     }
 
     @RequestMapping(value = "/postRole", method = RequestMethod.POST)
     @ResponseBody
     public void postRole(@ModelAttribute RolePOJO role) {
-
-
-
         iRoleService.postRole(role);
-
     }
-
 
     @RequestMapping(value = "/getRoles", method = RequestMethod.GET)
     @ResponseBody
     public List<RolePOJO> getRoles() {
-
-
-
         return iRoleService.getRoles();
-
     }
+
     @RequestMapping(value = "/deleteRole", method = RequestMethod.DELETE)
     @ResponseBody
     public Boolean deleteRole(@RequestParam("roleId") String roleId) {
-
-
-
         return iRoleService.deleteRole(roleId);
-
     }
 
     @RequestMapping(value = "/putUserRole", method = RequestMethod.PUT)
     @ResponseBody
     public void putUserRole(@RequestParam("userId") String userId, @RequestParam("roleName") String roleName) {
-
         iUserService.putUserRole(userId, roleName);
-
-
     }
 
     @RequestMapping(value = "/putActivate", method = RequestMethod.PUT)
     @ResponseBody
     public void putActivate(@RequestParam("userId") String userId) {
-
         iUserService.putActivate(userId);
-
-
     }
 
     @RequestMapping(value = "/putState", method = RequestMethod.PUT)
     @ResponseBody
     public void putState(@RequestParam("userId") String userId, @RequestParam("state") String state) {
-
         iUserService.putState(userId,state);
-
-
     }
 
     @RequestMapping(value = "/putUserLogin", method = RequestMethod.PUT)
     @ResponseBody
     public String putUserLogin(@RequestParam("userId") String userId, @RequestParam("login") String login) {
-
         return iUserService.putUserLogin(userId,login);
-
-
     }
 
     @RequestMapping(value = "/putUserAvatar", method = RequestMethod.PUT)
     @ResponseBody
     public void putUserAvatar(@RequestParam("userId") String userId, @RequestParam("avatar") String avatar) {
-
         iUserService.putUserAvatar(userId,avatar);
-
-
     }
 
     @RequestMapping(value = "/putUserTelephone", method = RequestMethod.PUT)
     @ResponseBody
     public void putUserTelephone(@RequestParam("userId") String userId, @RequestParam("telephone") String telephone) {
-
         iUserService.putUserTelephone(userId,telephone);
-
-
     }
 
     @RequestMapping(value = "/putUserName", method = RequestMethod.PUT)
     @ResponseBody
     public void putUserName(@RequestParam("userId") String userId, @RequestParam("name") String name) {
-
         iUserService.putUserName(userId,name);
-
-
     }
 
     @RequestMapping(value = "/putUserSurname", method = RequestMethod.PUT)
     @ResponseBody
     public void putUserSurname(@RequestParam("userId") String userId, @RequestParam("surname") String surname) {
-
         iUserService.putUserSurname(userId,surname);
-
-
     }
 
     @RequestMapping(value = "/postVideo", method = RequestMethod.POST)
     @ResponseBody
     public VideoPOJO postVideo(@ModelAttribute VideoPOJO videoPOJO, @RequestParam("userId") String userId) {
-
         return iVideoService.postVideo(videoPOJO, userId);
-
     }
 
     @RequestMapping(value = "/deleteVideo", method = RequestMethod.DELETE)
     @ResponseBody
     public void deleteVideo(@RequestParam("videoId") String videoId) {
-
         iVideoService.deleteVideo(videoId);
     }
 
@@ -263,26 +199,18 @@ public class VideoServiceController {
     @RequestMapping(value = "/getVideoById", method = RequestMethod.GET)
     @ResponseBody
     public VideoPOJO getVideoById(@RequestParam("videoId") String videoId) {
-
-
-
         return iVideoService.getVideoById(videoId);
-
     }
 
     @RequestMapping(value = "/getVideos", method = RequestMethod.GET)
     @ResponseBody
     public List<VideoPOJO> getVideos() {
-
-
         return iVideoService.getVideos();
     }
 
     @RequestMapping(value = "/getVideosByText", method = RequestMethod.GET)
     @ResponseBody
     public List<VideoPOJO> getVideosByText(@RequestParam("text") String text) {
-
-
         return iVideoService.getVideosByText(text);
     }
 
@@ -290,19 +218,12 @@ public class VideoServiceController {
     @RequestMapping(value = "/putEndVideoStream", method = RequestMethod.PUT)
     @ResponseBody
     public void putEndVideoStream(@RequestParam("videoId") String videoId) {
-
         iVideoService.putEndVideoStream(videoId);
-
-
     }
 
     @RequestMapping(value = "/putEndToAllVideoStreams", method = RequestMethod.PUT)
     @ResponseBody
     public void putEndToAllVideoStreams(@RequestParam("userId") String userId) {
-
         iVideoService.putEndToAllVideoStreams(userId);
-
-
     }
-
 }

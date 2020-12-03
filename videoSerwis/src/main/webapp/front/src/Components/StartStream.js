@@ -23,7 +23,6 @@ class StartStream extends React.Component {
         this.submitStart = this.submitStart.bind(this)
         this.submitStop = this.submitStop.bind(this)
         this.onChangeTag = this.onChangeTag.bind(this)
-
     }
 
     valueChange  (event){
@@ -31,8 +30,6 @@ class StartStream extends React.Component {
             [event.target.name]:event.target.value
         })
     }
-
-
 
     componentDidMount() {
         this.state.userId = localStorage.getItem('loggedUser')
@@ -46,7 +43,6 @@ class StartStream extends React.Component {
 
     onChangeTag(event) {
         this.setState({ tag: event.target.value })
-
     }
 
     submitStop (event) {
@@ -58,8 +54,6 @@ class StartStream extends React.Component {
             .then((data) =>{
                     this.state.isStarted=false
                     this.forceUpdate()
-
-
             });
         event.preventDefault();
     }
@@ -76,9 +70,7 @@ class StartStream extends React.Component {
             });
     }
 
-
     submitStart (event) {
-
             axios({
                 method:'post',
                 url:'http://'+ip+':8080/postVideo?tag='
@@ -96,18 +88,14 @@ class StartStream extends React.Component {
                         this.forceUpdate()
 
                 });
-
-
         event.preventDefault();
     }
 
-
     render() {
-
         if(this.state.isStarted===false)
         return(
             <Card className="border border-light bg-light text-black">
-                <Form  onSubmit={this.submitStart}  id={"startStreamFormId"}>
+                <Form  onSubmit={this.submitStart} >
                     <Card.Header>
                         <h3>Wzór do rozpoczęcia strumienia</h3>
                         <p>Serwer: rtmp://{ip}:1935/show/</p>

@@ -57,7 +57,7 @@ class EditPass extends React.Component{
     render() {
         return (
             <Card className={"border border-light bg-light text-black"}>
-                <Form  onSubmit={this.submitChange} id={"searchFormId"}>
+                <Form  onSubmit={this.submitChange}>
                     <Card.Body>
                         <Form.Row>
                             <Form.Group as={Col}>
@@ -71,7 +71,6 @@ class EditPass extends React.Component{
                                     onChange={this.valueChange}
                                     placeholder="password"
                                     className={"bg-light text-black"}
-
                                 />
                             </Form.Group>
                         </Form.Row>

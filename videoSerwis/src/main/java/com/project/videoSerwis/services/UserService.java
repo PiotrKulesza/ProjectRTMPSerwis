@@ -5,6 +5,7 @@ import com.project.videoSerwis.pojo.RolePOJO;
 import com.project.videoSerwis.pojo.UserPOJO;
 import com.project.videoSerwis.repositories.RoleRepository;
 import com.project.videoSerwis.repositories.UserRepository;
+import com.project.videoSerwis.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class UserService implements IUserService{
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    VideoRepository videoRepository;
 
     @Override
     public List<UserPOJO> getUserPojo() {
@@ -36,8 +40,15 @@ public class UserService implements IUserService{
     public UserPOJO getUserByEmailAndPassword(String email, String password) {
 
         UserPOJO userPOJO= new UserPOJO();
-        if (userRepository.findByEmailAndPassword(email,password).isPresent())
-            return userRepository.findByEmailAndPassword(email,password).get();
+        if (userRepository.findByEmailAndPassword(email,password).isPresent()){
+            userPOJO =userRepository.findByEmailAndPassword(email,password).get();
+            userPOJO.setEmail(null);
+            userPOJO.setTelephone(null);
+            userPOJO.setSurname(null);
+            userPOJO.setPassword(null);
+            userPOJO.setName(null);
+            return userPOJO;
+        }
         else return userPOJO;
 
     }
@@ -50,19 +61,15 @@ public class UserService implements IUserService{
 
     @Override
     public String putPassword(String id, String newPass, String oldPass) {
-
         if(userRepository.findById(id).isPresent()){
             UserPOJO userPOJO = userRepository.findById(id).get();
-
             if(userPOJO.getPassword().equals(oldPass)) {
                 userPOJO.setPassword(newPass);
                 userRepository.save(userPOJO);
+                updateVideos(userPOJO);
                 return "0";
             }else return "1";
-
-
         }return "2";
-
     }
 
     @Override
@@ -79,7 +86,6 @@ public class UserService implements IUserService{
                 return userPOJO.getUserId();
             }else return "1";
         }else return "2";
-
     }
 
     @Override
@@ -90,6 +96,7 @@ public class UserService implements IUserService{
             RolePOJO rolePOJO = roleRepository.findByRoleName(roleName).get();
             userPOJO.setRole(rolePOJO);
             userRepository.save(userPOJO);
+            updateVideos(userPOJO);
         }
 
 
@@ -101,6 +108,7 @@ public class UserService implements IUserService{
             UserPOJO userPOJO = userRepository.findById(userId).get();
             userPOJO.setState(State.ACTIVATED);
             userRepository.save(userPOJO);
+
         }
     }
 
@@ -110,6 +118,7 @@ public class UserService implements IUserService{
             UserPOJO userPOJO = userRepository.findById(userId).get();
             userPOJO.setState(State.valueOf(state));
             userRepository.save(userPOJO);
+            updateVideos(userPOJO);
         }
     }
 
@@ -121,16 +130,17 @@ public class UserService implements IUserService{
                 UserPOJO userPOJO = userRepository.findById(userId).get();
                 userPOJO.setLogin(login);
                 userRepository.save(userPOJO);
+                updateVideos(userPOJO);
+                return "0";
             }
-            return "0";
         }else{
             return "1";
         }
+        return "2";
     }
 
     @Override
     public List<UserPOJO> getUserByText(String text) {
-
         List<UserPOJO> userPOJOList = userRepository.findAll();
         if(text.equals("@everyone")) {
             return userPOJOList;
@@ -139,9 +149,14 @@ public class UserService implements IUserService{
             List<UserPOJO> userPOJOList2 = new ArrayList<>();
             userPOJOList.stream().forEach(s -> {
                 for (String word : strings) {
-                    if (s.getLogin().toLowerCase().contains(word.toLowerCase()))
+                    if (s.getLogin().toLowerCase().contains(word.toLowerCase())){
+                        s.setEmail(null);
+                        s.setTelephone(null);
+                        s.setSurname(null);
+                        s.setPassword(null);
+                        s.setName(null);
                         userPOJOList2.add(s);
-
+                    }
                 }
             });
             List<UserPOJO> listWithoutDuplicates = new ArrayList<>(
@@ -156,6 +171,7 @@ public class UserService implements IUserService{
             UserPOJO userPOJO = userRepository.findById(userId).get();
             userPOJO.setAvatar(avatar);
             userRepository.save(userPOJO);
+            updateVideos(userPOJO);
         }
 
     }
@@ -166,13 +182,19 @@ public class UserService implements IUserService{
             UserPOJO userPOJO = userRepository.findById(userId).get();
             userPOJO.setTelephone(telephone);
             userRepository.save(userPOJO);
+            updateVideos(userPOJO);
         }
 
     }
 
     @Override
     public void putUserName(String userId, String name) {
-
+        if(userRepository.findById(userId).isPresent()){
+            UserPOJO userPOJO = userRepository.findById(userId).get();
+            userPOJO.setName(name);
+            userRepository.save(userPOJO);
+            updateVideos(userPOJO);
+        }
 
     }
 
@@ -182,6 +204,7 @@ public class UserService implements IUserService{
             UserPOJO userPOJO = userRepository.findById(userId).get();
             userPOJO.setSurname(surname);
             userRepository.save(userPOJO);
+            updateVideos(userPOJO);
         }
 
     }
@@ -190,4 +213,14 @@ public class UserService implements IUserService{
     public Optional<UserPOJO> getUserByLogin(String login) {
         return userRepository.findByLogin(login);
     }
+
+
+    private void updateVideos(UserPOJO userPOJO){
+        videoRepository.findAll().stream().filter(s -> s.getUserPOJO().getUserId().equals(userPOJO.getUserId()))
+                .forEach(s -> {
+                    s.setUserPOJO(userPOJO);
+                    videoRepository.save(s);
+                });
+    }
+
 }

@@ -12,7 +12,7 @@ class EditSurname extends React.Component{
             userType:''
         };
         this.valueChange = this.valueChange.bind(this)
-        this.submitSearch = this.submitSearch.bind(this)
+        this.submitChange = this.submitChange.bind(this)
     }
 
     valueChange  (event){
@@ -21,7 +21,7 @@ class EditSurname extends React.Component{
         })
     }
 
-    submitSearch (event) {
+    submitChange (event) {
         const params = new URLSearchParams();
         params.append('Id',this.state.userId+'');
         axios({
@@ -45,10 +45,10 @@ class EditSurname extends React.Component{
     render() {
         return (
             <Card className={"border border-light bg-light text-black"}>
-                <Form  onSubmit={this.submitSearch} id={"searchFormId"}>
+                <Form  onSubmit={this.submitChange}>
                     <Card.Body>
                         <Form.Row>
-                            <Form.Group as={Col} controlId="formBasicPriceForFood">
+                            <Form.Group as={Col} >
                                 <Form.Label>Nowe nazwisko użytkonwika</Form.Label>
                                 <Form.Control
                                     required

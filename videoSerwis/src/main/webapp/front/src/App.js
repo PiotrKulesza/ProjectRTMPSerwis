@@ -4,7 +4,6 @@ import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
 import './App.css';
 import 'semantic-ui-css/semantic.min.css'
 
-
 import NavigationBar from "./Components/NavigationBar";
 import Welcome from "./Components/Welcome.js";
 import Test from "./Components/Test";
@@ -43,7 +42,6 @@ function App() {
           <Route path={"/activate/:userId"} exact component={NavigationBar}/>
           <Route path={"/laststep/:userId/:email"} exact component={NavigationBar}/>
 
-
           <Route path={"/user"} exact component={NavigationBarUser}/>
           <Route path={"/user/profil"} exact component={NavigationBarUser}/>
           <Route path={"/user/videoslist"} exact component={NavigationBarUser}/>
@@ -53,7 +51,6 @@ function App() {
           <Route path={"/user/editSurname"} exact component={NavigationBarUser}/>
           <Route path={"/user/editPass"} exact component={NavigationBarUser}/>
           <Route path={"/user/startStream"} exact component={NavigationBarUser}/>
-
 
           <Route path={"/admin"} exact component={NavigationBarAdmin}/>
           <Route path={"/admin/profil"} exact component={NavigationBarAdmin}/>
@@ -80,31 +77,29 @@ function App() {
                           <Route path={"/laststep/:userId/:email"} exact component={LastStep}/>
 
                           <Route path={"/user"} exact component={WelcomeUser}/>
-                          <Route path={"/admin"} exact component={WelcomeAdmin}/>
-                          <Route path={"/admin/profil"} exact component={Profil}/>
                           <Route path={"/user/profil"} exact component={Profil}/>
-                          <Route path={"/admin/users"} exact component={UsersList}/>
                           <Route path={"/user/users"} exact component={UsersList}/>
-                          <Route path={"/admin/editTelephone"} exact component={EditTelephone}/>
                           <Route path={"/user/editTelephone"} exact component={EditTelephone}/>
                           <Route path={"/user/editName"} exact component={EditName}/>
-                          <Route path={"/admin/editName"} exact component={EditName}/>
                           <Route path={"/user/editLogin"} exact component={EditLogin}/>
-                          <Route path={"/admin/editLogin"} exact component={EditLogin}/>
-                          <Route path={"/admin/editSurname"} exact component={EditSurname}/>
                           <Route path={"/user/editSurname"} exact component={EditSurname}/>
                           <Route path={"/user/startStream"} exact component={StartStream}/>
-                          <Route path={"/admin/user/:userId"} exact component={UserAdmin}/>
                           <Route path={"/user/videoslist"} exact component={VideosList}/>
                           <Route path={"/user/editPass"} exact component={EditPass}/>
+
+                          <Route path={"/admin"} exact component={WelcomeAdmin}/>
+                          <Route path={"/admin/profil"} exact component={Profil}/>
+                          <Route path={"/admin/users"} exact component={UsersList}/>
+                          <Route path={"/admin/editTelephone"} exact component={EditTelephone}/>
+                          <Route path={"/admin/editName"} exact component={EditName}/>
+                          <Route path={"/admin/editLogin"} exact component={EditLogin}/>
+                          <Route path={"/admin/editSurname"} exact component={EditSurname}/>
+                          <Route path={"/admin/user/:userId"} exact component={UserAdmin}/>
                           <Route path={"/admin/editPass"} exact component={EditPass}/>
                       </Switch>
                   </Col>
               </Row>
-
           </Container>
-
-
       </Router>
       </div>
   );

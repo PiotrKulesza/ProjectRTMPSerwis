@@ -56,9 +56,9 @@ class Login extends React.Component {
         return(
             <Card className="border border-light bg-light text-black">
                 <Card.Header>Zaloguj się</Card.Header>
-                <Form onSubmit={this.submitLogin} id={"loginFormId"}>
+                <Form onSubmit={this.submitLogin}>
                     <Card.Body>
-                        <Form.Group  controlId="formBasicEmail">
+                        <Form.Group>
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
                                 required
@@ -73,8 +73,7 @@ class Login extends React.Component {
                                 <p>{this.state.textError}</p>
                             </Form.Text>
                         </Form.Group>
-
-                        <Form.Group  controlId="formBasicPassword">
+                        <Form.Group>
                             <Form.Label>Password</Form.Label>
                             <Form.Control
                                 required
@@ -94,7 +93,6 @@ class Login extends React.Component {
                     </Card.Footer>
                 </Form>
             </Card>
-
         );
     }
 }

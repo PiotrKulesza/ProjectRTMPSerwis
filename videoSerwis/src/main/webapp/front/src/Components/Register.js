@@ -17,14 +17,11 @@ class Register extends React.Component {
             login:'',
             postReturn:''
         }
-
         this.valueChange = this.valueChange.bind(this)
         this.submitRegister = this.submitRegister.bind(this)
     }
 
     submitRegister(event){
-
-
         const params = new URLSearchParams();
         params.append('email',this.state.email);
         params.append('password',this.state.password);
@@ -33,7 +30,6 @@ class Register extends React.Component {
         params.append('telephone',this.state.telephone);
         params.append('address',this.state.address);
         params.append('login',this.state.login);
-
         if(this.state.password===this.state.rep_password){
             axios({
                 method:'post',
@@ -44,9 +40,7 @@ class Register extends React.Component {
                     this.setState({postReturn: data});
                     if(this.state.postReturn !== 1 && this.state.postReturn !== 2 && this.state.postReturn !=='')
                         window.location = "http://"+ip+":3000/laststep/"+this.state.postReturn+"/"+this.state.email
-
                 });
-
         }
         event.preventDefault();
     }
@@ -61,11 +55,10 @@ class Register extends React.Component {
         return(
             <Card className="border border-light bg-light text-black">
                 <Card.Header>Zarejestruj się</Card.Header>
-                <Form onSubmit={this.submitRegister} id={"registerFormId"}>
+                <Form onSubmit={this.submitRegister}>
                     <Card.Body>
-
                         <Form.Row>
-                            <Form.Group as={Col} controlId="formBasicEmail">
+                            <Form.Group as={Col}>
                                 <Form.Label>Adres Email</Form.Label>
                                 <Form.Control
                                     required
@@ -75,11 +68,9 @@ class Register extends React.Component {
                                     onChange={this.valueChange}
                                     placeholder="name@example.com"
                                     className={"bg-light text-black"}
-
                                 />
-
                             </Form.Group>
-                            <Form.Group as={Col} controlId="formBasicEmail">
+                            <Form.Group as={Col}>
                                 <Form.Label>Login</Form.Label>
                                 <Form.Control
                                     required
@@ -91,14 +82,10 @@ class Register extends React.Component {
                                     className={"bg-light text-black"}
 
                                 />
-
                             </Form.Group>
-
-
                         </Form.Row>
-
                         <Form.Row>
-                            <Form.Group as={Col} controlId="formBasicPassword">
+                            <Form.Group as={Col}>
                                 <Form.Label>Hasło</Form.Label>
                                 <Form.Control
                                     required
@@ -110,8 +97,7 @@ class Register extends React.Component {
                                     className={"bg-light text-black"}
                                 />
                             </Form.Group>
-
-                            <Form.Group as={Col} controlId="formBasicPassword">
+                            <Form.Group as={Col}>
                                 <Form.Label>Powtórz Hasło</Form.Label>
                                 <Form.Control
                                     required
@@ -122,12 +108,10 @@ class Register extends React.Component {
                                     placeholder="Password"
                                     className={"bg-light text-black"}
                                 />
-
                             </Form.Group>
                         </Form.Row>
-
                         <Form.Row>
-                            <Form.Group as={Col} controlId="formBasicName">
+                            <Form.Group as={Col}>
                                 <Form.Label>Imię</Form.Label>
                                 <Form.Control
                                     required
@@ -137,10 +121,9 @@ class Register extends React.Component {
                                     onChange={this.valueChange}
                                     placeholder="Jan"
                                     className={"bg-light text-black"}
-
                                 />
                             </Form.Group>
-                            <Form.Group as={Col} controlId="formBasicSurname">
+                            <Form.Group as={Col}>
                                 <Form.Label>Nazwisko</Form.Label>
                                 <Form.Control
                                     required
@@ -152,10 +135,9 @@ class Register extends React.Component {
                                     className={"bg-light text-black"}
                                 />
                             </Form.Group>
-
                         </Form.Row>
                         <Form.Row>
-                            <Form.Group as={Col} controlId="formBasicTelephone">
+                            <Form.Group as={Col}>
                                 <Form.Label>Numer Telefonu</Form.Label>
                                 <Form.Control
                                     required
@@ -165,13 +147,9 @@ class Register extends React.Component {
                                     onChange={this.valueChange}
                                     placeholder="123456789"
                                     className={"bg-light text-black"}
-
                                 />
-
                             </Form.Group>
-
                         </Form.Row>
-
                     </Card.Body>
                     <Card.Footer style={{"textAlign":"right"}}>
                         <Button size="sm" variant="success" type="submit">
@@ -180,14 +158,11 @@ class Register extends React.Component {
                     </Card.Footer>
                     <CheckIfNotMatch pass={this.state.password} rep_pass={this.state.rep_password}/>
                     <PostReturnAlert postReturn={this.state.postReturn}/>
-
                 </Form>
             </Card>
         );
     }
-
 }
-
 
 const PostReturnAlert = (props) => {
     if(props.postReturn===1){
@@ -199,7 +174,7 @@ const PostReturnAlert = (props) => {
     }
 }
 
-const AlertIfLoginExist = (props) => {
+const AlertIfLoginExist = () => {
     return<div>
         <Alert  variant={"danger"}>
             Taki login już istnieje
@@ -207,7 +182,7 @@ const AlertIfLoginExist = (props) => {
 
 }
 
-const AlertIfEmailExist = (props) => {
+const AlertIfEmailExist = () => {
     return<div>
         <Alert  variant={"danger"}>
             Taki email już istnieje
@@ -222,21 +197,19 @@ const CheckIfNotMatch = (props) =>{
     }else {
         return <EmptyDiv/>
     }
-
-
 }
 
-const AlertIfPassNotMatch = (props) => {
+const AlertIfPassNotMatch = () => {
     return<div>
         <Alert  variant={"danger"}>
             Hasła nie są identyczne
         </Alert></div>
 
 }
-const EmptyDiv = (props) => {
+
+const EmptyDiv = () => {
     return<div>
         </div>
-
 }
 
 export default Register;

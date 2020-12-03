@@ -1,7 +1,6 @@
 package com.project.videoSerwis.services;
 
 import com.project.videoSerwis.pojo.UserPOJO;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +36,4 @@ public interface IUserService {
     public void putUserSurname(String userId, String surname);
 
     public Optional<UserPOJO> getUserByLogin(String login);
-
-
-
 }

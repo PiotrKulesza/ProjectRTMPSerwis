@@ -4,6 +4,23 @@ import {Link} from "react-router-dom";
 
 class NavigationBar extends React.Component{
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: ''
+        }
+    }
+
+    componentDidMount() {
+        if ('null' !== this.state.user.userId && typeof this.state.user.userId !== "undefined"
+            && this.state.user.role !== null) {
+            window.location = "/loggout"
+        }else
+        if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser')) {
+            window.location = "/user"
+        }
+    }
+
     render() {
         return (
             <Navbar bg="light" variant="light">
@@ -18,7 +35,6 @@ class NavigationBar extends React.Component{
             </Navbar>
         );
     }
-
 }
 
 export default NavigationBar;

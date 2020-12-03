@@ -5,7 +5,6 @@ class Welcome extends React.Component{
 
     render() {
         return (
-
             <Jumbotron className = "bg-light text-dark">
                 <h1>Witaj w serwisie strumieniowania wideo!</h1>
                 <p>
@@ -15,10 +14,9 @@ class Welcome extends React.Component{
                     Po rejestracji i zalogowaniu będziesz wstanie wybrać odpowiadający ci pokój i następnie
                     złożyć rezerwacje.
                 </p>
-
             </Jumbotron>
-
         );
     }
 }
+
 export default Welcome;

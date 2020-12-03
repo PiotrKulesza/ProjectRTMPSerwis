@@ -12,7 +12,6 @@ class LastStep extends React.Component{
     }
 
     componentDidMount() {
-
             axios({
                 method:'post',
                 url:'http://'+ip+':8080/sendEmail?email='+this.props.match.params.email+
@@ -31,4 +30,5 @@ class LastStep extends React.Component{
         );
     }
 }
+
 export default LastStep;
