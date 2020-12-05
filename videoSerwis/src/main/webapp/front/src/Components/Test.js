@@ -15,16 +15,13 @@ class Test extends React.Component{
         if(localStorage.getItem('state') === 'BANNED' || localStorage.getItem('state') === 'INACTIVATED' ){
             window.location = "/loggout"
         }
-        if ('null' !== this.state.userId || typeof this.state.userId !== "undefined") {
-            window.location = "/login"
-        }else
         if ('ADMIN' === localStorage.getItem('typeOfUser') || 'HEAD_ADMIN' === localStorage.getItem('typeOfUser') ) {
             window.location = "/admin"
         }else
         if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser') ) {
             window.location = "/user"
         }else{
-            window.location = "/login"
+            window.location = "/loggout"
         }
     }
 

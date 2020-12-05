@@ -12,13 +12,17 @@ class NavigationBar extends React.Component{
     }
 
     componentDidMount() {
-        if ('null' !== this.state.user.userId && typeof this.state.user.userId !== "undefined"
-            && this.state.user.role !== null) {
+
+        if(localStorage.getItem('state') === 'BANNED' || localStorage.getItem('state') === 'INACTIVATED' ){
             window.location = "/loggout"
+        }
+        if ('ADMIN' === localStorage.getItem('typeOfUser') || 'HEAD_ADMIN' === localStorage.getItem('typeOfUser') ) {
+            window.location = "/admin"
         }else
-        if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser')) {
+        if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser') ) {
             window.location = "/user"
         }
+
     }
 
     render() {

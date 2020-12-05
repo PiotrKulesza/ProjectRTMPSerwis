@@ -7,21 +7,18 @@ class NavigationBarAdmin extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            user: ''
         }
     }
 
     componentDidMount(){
-        this.state.user = localStorage.getItem('loggedUser')
-        if ('null' !== this.state.user.userId && typeof this.state.user.userId !== "undefined"
-            && this.state.user.role !== null) {
+        if(localStorage.getItem('state') === 'BANNED' || localStorage.getItem('state') === 'INACTIVATED' ){
             window.location = "/loggout"
-        }else
-        if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser')) {
-            window.location = "/user"
         }
-        if ('ADMIN' === localStorage.getItem('typeOfUser') || 'HEADADMIN' === localStorage.getItem('typeOfUser') ) {
-            window.location = "/admin"
+
+        if ('USER' === localStorage.getItem('typeOfUser') || 'MODERATOR' === localStorage.getItem('typeOfUser') ) {
+            window.location = "/user"
+        }else if (null === localStorage.getItem('typeOfUser')){
+            window.location = "/loggout"
         }
     }
 
