@@ -11,7 +11,6 @@ import com.project.videoSerwis.services.IVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.context.Context;
 import java.util.List;
 
 @RestController
@@ -51,10 +50,6 @@ public class VideoServiceController {
         emailPropertiesPOJO.setEmailUsername(emailUsername);
 
         EmailSenderImpl emailSender = new EmailSenderImpl();
-        Context context = new Context();
-        context.setVariable("header", "Nowy artykuł na CodeCouple");
-        context.setVariable("title", "#8 Spring Boot – email - szablon i wysyłanie");
-        context.setVariable("description", "Tutaj jakis opis...");
         String body = "<!doctype html>\n" +
                 "<html>\n" +
                 "<head>\n" +

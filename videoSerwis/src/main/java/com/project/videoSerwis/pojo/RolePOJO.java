@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import javax.persistence.Column;
 
 @Document
 @Data
@@ -15,6 +14,5 @@ public class RolePOJO {
     @Id
     private String roleId;
 
-    @Column(nullable = false)
     private String roleName;
 }

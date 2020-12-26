@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 @Configuration
 class ApplicationConfig extends AbstractMongoClientConfiguration {
 
-    @Value("${mongodb}")
+    @Value("${spring.data.mongodb.ip}")
     public String mongo_uri;
 
     @Value("${spring.data.mongodb.database}")

@@ -11,8 +11,8 @@ class WelcomeUser extends React.Component{
                     Teraz po zalogowaniu możesz:
                     <ol>
                         <li>Edytować swoje dane osobowe</li>
-                        <li>Wyszukiwać trwajace strumienie</li>
-                        <li>Startować i kończyć włąsne strumienie wideo</li>
+                        <li>Wyszukiwać trwające strumienie</li>
+                        <li>Startować i kończyć własne strumienie wideo</li>
                     </ol>
                 </p>
 
