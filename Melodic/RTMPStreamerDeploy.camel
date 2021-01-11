@@ -1,0 +1,280 @@
+camel model RTMPStreamerApp{
+	application RTMPStreamerApp{
+        version '1.0'  
+    }
+    
+    
+   	deployment type model RTMPStreamerAppDeployment{
+    	
+   		software Component_WebApp{  
+   			requirements WebAppRequirementSet
+   			script configuration ComponentWebAppConfiguration{
+   				download 'printenv >> ~/printenv.log && curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - && sudo apt-get install -y nodejs && git clone https://github.com/sergey-dryabzhinsky/nginx-rtmp-module.git ~/nginx-rtmp-module && sudo apt-get install -y build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev && wget http://nginx.org/download/nginx-1.17.3.tar.gz -P ~/ && cd ~/ && sudo tar -xf ~/nginx-1.17.3.tar.gz -C ~/ && cd ~/nginx-1.17.3 && ./configure --with-http_ssl_module --add-module=../nginx-rtmp-module && make -j 1 && sudo make install'                              
+               	install 'git clone https://github.com/PiotrKulesza/ConfigureFiles.git ~/ConfigureFiles && sudo cp ~/ConfigureFiles/conf_nginx/nginx.conf /usr/local/nginx/conf/nginx.conf && sudo /usr/local/nginx/sbin/nginx'
+                configure 'sudo apt-get -y install maven && sudo apt-get -y install default-jdk && git clone https://github.com/PiotrKulesza/ProjectRTMPSerwis.git ~/ProjectRTMPSerwis && cd ~/ConfigureFiles/generator && sudo mvn spring-boot:run -f ~/ConfigureFiles/generator/pom.xml'
+                start 'sudo npm install pm2 -g && cd ~/ProjectRTMPSerwis/videoSerwis/src/main/webapp/front && sudo pm2 --name Fribt start npm -- start && sudo nohup mvn spring-boot:run -f ~/ProjectRTMPSerwis/videoSerwis/pom.xml > ~/output1.txt 2>&1 &'   
+   			}
+   			
+   			
+   			provided communication ComponentWebAppPort port 3000
+            required communication ComponentDatabasePortReq port 27017 mandatory
+   		}
+   		 
+   		
+   		software Component_Database{
+   			
+   			requirements DatabaseRequirementSet
+   			script configuration ComponentDatabaseConfiguration{
+   				download 'sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install -y gnupg && wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add - && echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list'
+               	install 'sudo apt-get update -y && sudo apt-get install -y mongodb-org && sudo systemctl start mongod'
+                configure 'git clone https://github.com/PiotrKulesza/ConfigureFiles.git ~/ConfigureFiles && sudo cp ~/ConfigureFiles/conf_mongo/mongod.conf /etc/mongod.conf'
+                start 'sudo systemctl restart mongod'
+   			}
+   			
+   			provided communication ComponentDatabasePort port 27017
+   		}
+   		
+   		communication WebAppToDatabase from Component_WebApp.ComponentDatabasePortReq to Component_Database.ComponentDatabasePort
+   		
+		requirements WebAppRequirementSet{
+    		resource RTMPStreamerApp_Requirement.WebAppReqs
+    		horizontal scale RTMPStreamerApp_Requirement.HorizontalScaleWebApp
+     		
+
+    	}  
+   		
+   		
+		requirements DatabaseRequirementSet{
+    		resource RTMPStreamerApp_Requirement.DatabaseReqs
+    		horizontal scale RTMPStreamerApp_Requirement.HorizontalScaleDatabase
+     		
+
+    	}  
+   	}
+   		
+   		
+	requirement model  RTMPStreamerApp_Requirement{
+	   			resource requirement WebAppReqs{
+		            feature coresApp{
+		        		[MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.CPU]
+		        		attribute minCoresApp [MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.CPU.hasMinNumberofCores] : int 1
+		        		attribute maxCoresApp [MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.CPU.hasMaxNumberofCores] : int 16
+		        		
+		        	}  
+		        	feature ramApp{
+		        		[MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.RAM]
+						attribute minRamApp [MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.RAM.TotalMemory.totalMemoryHasMin]:int 10000
+						attribute maxRamApp [MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.RAM.TotalMemory.totalMemoryHasMax]:int 65000
+		        	}
+	        	}
+	        
+	        	horizontal scale requirement HorizontalScaleWebApp [1,1]
+	        	
+	        	resource requirement DatabaseReqs{
+		            feature coresApp{
+		        		[MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.CPU]
+		        		attribute minCoresApp [MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.CPU.hasMinNumberofCores] : int 1
+		        		attribute maxCoresApp [MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.CPU.hasMaxNumberofCores] : int 2
+		        		
+		        	}  
+		        	feature ramApp{
+		        		[MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.RAM]
+						attribute minRamApp [MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.RAM.TotalMemory.totalMemoryHasMin]:int 1000
+						attribute maxRamApp [MetaDataModel.MELODICMetadataSchema.ApplicationPlacementModel.IaaS.Processing.RAM.TotalMemory.totalMemoryHasMax]:int 2000
+		        	}
+	        	}
+	        
+	        	horizontal scale requirement HorizontalScaleDatabase [1,1]
+				
+				
+				
+				
+				provider requirement PublicRequirement{
+		            cloud type public
+		        }
+		        
+		        optimisation requirement maxUtility{
+					variable RTMPStreamerMetricModel.Utility
+				}
+		        
+		        slo CPUUtilisationTooLowOrTooHigh constraint RAMCPUSensorTemplateConstraintModel_CPU.AvgCPUUtilisationTooHigh
+        		slo RAMUtilisationTooLowOrTooHigh constraint RAMCPUSensorTemplateConstraintModel_RAM.AvgRAMUtilisationTooHigh
+	   		}
+    
+	
+	
+	metric type model RTMPStreamerMetricModel{
+        measurable attribute utility
+        measurable attribute cpuUtilisation sensors [RTMPStreamerMetricModel.CPUUtilisation_Sensor]
+        measurable attribute ramUtilisation sensors [RTMPStreamerMetricModel.RAMUtilisation_Sensor]
+       
+        measurable attribute price [ MetaDataModel.MELODICMetadataSchema.UtilityNotions.UtilityRelatedProperties.Cost]
+       
+        object context RTMPStreamerComponentContext{
+            component RTMPStreamerAppDeployment.Component_WebApp
+        }
+        
+      sensor CPUUtilisation_Sensor{
+			config 'de.uniulm.omi.cloudiator.visor.sensors.SystemCpuUsageSensor'
+		}
+		
+		
+		template RawCPUUtilisationTemplate{
+            attribute cpuUtilisation
+            unit UnitTemplateCamelModel.UnitTemplateModel.Percentage
+            value type TypeTemplateCamelModel.TypeTemplateModel.ZeroToHundredDouble
+        }
+        
+        schedule RawCPUUtilSchedule{
+        	interval 5
+        	time unit UnitTemplateCamelModel.UnitTemplateModel.Seconds 
+        }
+        
+        schedule AvgCPUUtilSchedule{
+        	interval 30
+        	time unit UnitTemplateCamelModel.UnitTemplateModel.Seconds
+        }
+        
+        window AvgCPUUtilWindow{
+        	type sliding
+        	size type measurements-only
+        	measurement size 30
+        }
+        
+        
+        raw metric context RawCPUUtilisationContext{
+        	metric RTMPStreamerMetricModel.AppCPUUtilisation
+        	sensor RTMPStreamerMetricModel.CPUUtilisation_Sensor
+        	window AvgCPUUtilWindow
+        	schedule RawCPUUtilSchedule
+        	object context RTMPStreamerComponentContext
+        }
+        
+        raw metric AppCPUUtilisation{
+            template RawCPUUtilisationTemplate
+        }
+        
+        composite metric AvgCPUUtilisation{
+        	template MetricTemplateCamelModel.MetricTemplateModel.CPUUtilisationTemplate
+        	
+        	formula:('mean(AppCPUUtilisation)')
+        }
+        
+        composite metric context AvgCPUUtilisationContext{
+        	
+        	metric AvgCPUUtilisation
+        	
+        	grouping per-instance
+        	
+        	window AvgCPUUtilWindow
+        	
+        	schedule AvgCPUUtilSchedule
+        	
+        	object context RTMPStreamerComponentContext
+        	
+        	composing contexts [RawCPUUtilisationContext]
+        }
+        
+        
+        
+        
+        
+        sensor RAMUtilisation_Sensor{
+			config 'de.uniulm.omi.cloudiator.visor.sensors.SystemMemoryUsageSensor'
+		}
+		
+		
+		template RawRAMUtilisationTemplate{
+            attribute ramUtilisation
+            unit UnitTemplateCamelModel.UnitTemplateModel.Percentage
+            value type TypeTemplateCamelModel.TypeTemplateModel.ZeroToHundredDouble
+        }
+        
+        schedule RawRAMUtilSchedule{
+        	interval 5
+        	time unit UnitTemplateCamelModel.UnitTemplateModel.Seconds 
+        }
+        
+        schedule AvgRAMUtilSchedule{
+        	interval 30
+        	time unit UnitTemplateCamelModel.UnitTemplateModel.Seconds
+        }
+        
+        window AvgRAMUtilWindow{
+        	type sliding
+        	size type measurements-only
+        	measurement size 30
+        }
+        
+        
+        raw metric context RawRAMUtilisationContext{
+        	metric RTMPStreamerMetricModel.AppRAMUtilisation
+        	sensor RTMPStreamerMetricModel.RAMUtilisation_Sensor
+        	window AvgRAMUtilWindow
+        	schedule RawRAMUtilSchedule
+        	object context RTMPStreamerComponentContext
+        }
+        
+        raw metric AppRAMUtilisation{
+            template RawRAMUtilisationTemplate
+        }
+        
+        composite metric AvgRAMUtilisation{
+        	template MetricTemplateCamelModel.MetricTemplateModel.RAMUtilisationTemplate
+        	
+        	formula:('mean(AppRAMUtilisation)')
+        }
+        
+        composite metric context AvgRAMUtilisationContext{
+        	
+        	metric AvgRAMUtilisation
+        	
+        	grouping per-instance
+        	
+        	window AvgRAMUtilWindow
+        	
+        	schedule AvgRAMUtilSchedule
+        	
+        	object context RTMPStreamerComponentContext
+        	
+        	composing contexts [RawRAMUtilisationContext]
+        }
+        
+        
+        template PriceTemplate{
+            attribute price
+            unit UnitTemplateCamelModel.UnitTemplateModel.Euros
+            value type TypeTemplateCamelModel.TypeTemplateModel.ZeroToPositiveInfinityDouble
+        }
+        
+        
+        variable AppActPrice{
+            template PriceTemplate
+            component RTMPStreamerAppDeployment.Component_WebApp
+            current-config
+        }
+        variable AppPrice{
+            template PriceTemplate
+            component RTMPStreamerAppDeployment.Component_WebApp
+        }
+        
+        
+         
+        variable Utility{
+            template MetricTemplateCamelModel.MetricTemplateModel.UtilityTemplate
+            formula:('(AppPrice*AvgRAMUtilisation*AvgCPUUtilisation)/10')
+        }
+
+
+    }
+    
+    constraint model RAMCPUSensorTemplateConstraintModel_CPU{
+        metric constraint AvgCPUUtilisationTooHigh : [RTMPStreamerMetricModel.AvgCPUUtilisationContext ] >  95.0
+    }
+    constraint model RAMCPUSensorTemplateConstraintModel_RAM{
+        metric constraint AvgRAMUtilisationTooHigh : [ RTMPStreamerMetricModel.AvgRAMUtilisationContext ] >  95.0
+        
+    }
+	
+	        
+}
